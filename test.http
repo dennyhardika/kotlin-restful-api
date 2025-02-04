@@ -1,0 +1,41 @@
+### Create Product
+POST http://145.223.74.131:5432/api/products
+Content-Type: applicatio/json
+accept: application/json
+
+{
+    "id" : "A0001",
+    "name" : "Mac Book Pro 15",
+    "price" : 30000000,
+    "quantity" : 10
+}
+
+### Get Product
+Get http://localhost:8080/api/products/A0001
+Accept: application/json
+
+
+### Put Product
+Put http://localhost:8080/api/products/A0001
+Content-Type: applicatio/json
+accept: application/json
+
+{
+    "name" : "Mac Book Pro 18 New",
+    "price" : 50000000,
+    "quantity" : 100
+}
+
+### Delete product
+Delete http://localhost:8080/api/products/A0001
+accept: application/json
+
+### List product
+GET http://localhost:8080/api/products
+accept: application/json
+
+GET http://localhost:8080/api/products?size=5&page=1 (cth: mencari id dengan rentang tertentu / lebih dari 5)
+
+
+// gradle
+untuk build gradle di haruskan container yang di kaitkan dalam keadaan hidup
