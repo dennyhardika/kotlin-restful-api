@@ -1,4 +1,3 @@
-
 services:
  kotlin-restful-api:
    container_name: kotlin-restful-api
