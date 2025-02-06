@@ -7,6 +7,6 @@ import programmer_zaman_now.kotlin_restful_api.model.product.UpdateProductReques
 data class UpdateCategoryRequest(
 
     @field:NotBlank
-    val nama_kategori: String?
+    val namakategori: String?
 
 )
