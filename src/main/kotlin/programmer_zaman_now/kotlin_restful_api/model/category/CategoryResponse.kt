@@ -5,9 +5,9 @@ import java.util.Date
 
 data class CategoryResponse (
 
-    val id_kategori: Long,
+    val idkategori: Long,
 
-    val nama_kategori: String,
+    val namakategori: String,
 
     val createdAt: Date,
 
