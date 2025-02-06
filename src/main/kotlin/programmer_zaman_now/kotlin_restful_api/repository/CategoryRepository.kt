@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 
 interface CategoryRepository: JpaRepository<Category, Long> {
-  fun findByIdOrNull(id: Long): Category?
+  fun findById_kategori(id_kategori: Long): Optional<Category>
 }
