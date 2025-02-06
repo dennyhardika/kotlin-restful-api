@@ -18,6 +18,7 @@ class Product(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_produk")
     val id_produk: Long? = null,
 
     @Column(name = "nama_produk")
