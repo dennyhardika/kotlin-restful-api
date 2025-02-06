@@ -21,6 +21,7 @@ class Uprofile (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_uprofile")
     val id_uprofile: Long? = null,
 
     @Column(name = "nama_lengkap")
