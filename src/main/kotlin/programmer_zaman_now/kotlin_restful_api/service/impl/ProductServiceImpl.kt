@@ -37,7 +37,7 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
             nama_produk = product.nama_produk!!,
             createdAt = product.createdAt,
             updatedAt = product.updatedAt,
-            category = category.id_kategori!!
+            category = category.idkategori!!
         )
     }
 
@@ -85,7 +85,7 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
             nama_produk = product.nama_produk,
             createdAt = product.createdAt,
             updatedAt = product.updatedAt,
-            category = product.categories?.id_kategori ?: throw IllegalStateException(" Category is null in Product")
+            category = product.categories?.idkategori ?: throw IllegalStateException(" Category is null in Product")
         )
     }
 }
