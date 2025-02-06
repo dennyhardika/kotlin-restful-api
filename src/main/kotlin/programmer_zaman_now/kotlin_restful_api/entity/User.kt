@@ -19,6 +19,7 @@ class User (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     val id_user: Long? = null,
 
     @Column(name = "username")
