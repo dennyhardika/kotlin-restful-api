@@ -5,6 +5,6 @@ import jakarta.validation.constraints.NotBlank
 data class CreateCategoryRequest(
 
     @field:NotBlank
-    val nama_kategori: String?
+    val namakategori: String?
 
 )
