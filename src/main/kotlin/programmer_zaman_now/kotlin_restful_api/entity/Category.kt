@@ -18,10 +18,10 @@ class Category (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_kategori")
-    val id_kategori: Long? = null,
+    val idkategori: Long? = null,
 
     @Column(name = "nama_kategori")
-    var nama_kategori: String,
+    var namakategori: String,
 
     @Column(name = "created_at")
     var createdAt: Date = Date(),
