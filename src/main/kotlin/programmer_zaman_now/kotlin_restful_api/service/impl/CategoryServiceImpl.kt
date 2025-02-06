@@ -59,7 +59,7 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
     }
 
     private fun findCategoryByOrThrowNotFound(id: Long): Category =
-    categoryRepository.findById_kategori(id) ?: throw NotFoundExpection()
+    categoryRepository.findByIdkategori(id) ?: throw NotFoundExpection()
 
     private fun convertCategoryToCategoryResponse(category: Category): CategoryResponse {
         return CategoryResponse(
