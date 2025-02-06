@@ -19,6 +19,7 @@ class Orders (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_order")
     val id_order: Long? = null,
 
     @Column(name = "created_at")
