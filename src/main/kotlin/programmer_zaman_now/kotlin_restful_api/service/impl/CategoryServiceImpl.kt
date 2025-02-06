@@ -20,7 +20,7 @@ import java.util.stream.Collectors
 class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryService {
     override fun create(createCategoryRequest: CreateCategoryRequest): CategoryResponse {
         val category = Category(
-            nama_kategori = createCategoryRequest.nama_kategori!!,
+            namakategori = createCategoryRequest.namakategori!!,
             createdAt = Date(),
             updatedAt = null
         )
@@ -37,7 +37,7 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
         val category = findCategoryByOrThrowNotFound(id)
 
         category.apply {
-            nama_kategori = updateCategoryRequest.nama_kategori!!
+            namakategori = updateCategoryRequest.namakategori!!
             updatedAt = Date()
         }
 
@@ -63,8 +63,8 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
 
     private fun convertCategoryToCategoryResponse(category: Category): CategoryResponse {
         return CategoryResponse(
-            id_kategori = category.id_kategori!!,
-            nama_kategori = category.nama_kategori,
+            idkategori = category.idkategori!!,
+            namakategori = category.namakategori,
             createdAt = category.createdAt,
             updatedAt = category.updatedAt
         )
