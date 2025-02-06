@@ -58,14 +58,8 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
         return categories.map { convertCategoryToCategoryResponse(it) }
     }
 
-    private fun findCategoryByOrThrowNotFound(id: Long): Category {
-        val category = categoryRepository.findByIdOrNull(id)
-        if (category == null){
-            throw NotFoundExpection()
-        }else {
-            return category;
-        }
-    }
+    private fun findCategoryByOrThrowNotFound(id: Long): Category =
+        categoryRepository.findByIdOrNull(id) ?: throw NotFoundExpection()
 
     private fun convertCategoryToCategoryResponse(category: Category): CategoryResponse {
         return CategoryResponse(
