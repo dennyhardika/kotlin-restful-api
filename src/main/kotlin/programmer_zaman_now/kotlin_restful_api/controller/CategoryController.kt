@@ -33,7 +33,7 @@ class CategoryController(val categoryService: CategoryService) {
     }
 
     @GetMapping(
-        value = ["/api/categories/{namaktg}"],
+        value = ["/api/categories/name/{namaktg}"],
         produces = ["application/json"]
     )
     fun getCategoryName(@PathVariable("namaktg") namaktg: String): WebResponse<CategoryResponse> {
@@ -46,7 +46,7 @@ class CategoryController(val categoryService: CategoryService) {
     }
 
     @GetMapping(
-        value = ["/api/categories/{idCategory}"],
+        value = ["/api/categories/id/{idCategory}"],
         produces = ["application/json"]
     )
     fun getCategory(@PathVariable("idCategory") id: Long): WebResponse<CategoryResponse> {
