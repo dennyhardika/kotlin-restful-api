@@ -12,6 +12,8 @@ interface CategoryService {
 
     fun get(id: Long): CategoryResponse
 
+    fun getnamaktg(namakategori: String): CategoryResponse
+
     fun update(id: Long, updateCategoryRequest: UpdateCategoryRequest): CategoryResponse
 
     fun delete(id: Long)
