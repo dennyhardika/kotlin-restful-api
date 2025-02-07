@@ -33,6 +33,11 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
         return convertCategoryToCategoryResponse(category)
     }
 
+    override fun getnamaktg(namakategori: String): CategoryResponse {
+        val category = findCategoryNameByOrThrowNotFound(namakategori)
+        return convertCategoryToCategoryResponse(category)
+    }
+
     override fun update(id: Long, updateCategoryRequest: UpdateCategoryRequest): CategoryResponse {
         val category = findCategoryByOrThrowNotFound(id)
 
