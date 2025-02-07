@@ -33,6 +33,19 @@ class CategoryController(val categoryService: CategoryService) {
     }
 
     @GetMapping(
+        value = ["/api/categories/{namaktg}"],
+        produces = ["application/json"]
+    )
+    fun getCategoryName(@PathVariable("namaktg") namaktg: String): WebResponse<CategoryResponse> {
+        val categoryResponse = categoryService.getnamaktg(namaktg)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = categoryResponse
+        )
+    }
+
+    @GetMapping(
         value = ["/api/categories/{idCategory}"],
         produces = ["application/json"]
     )
