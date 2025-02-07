@@ -5,4 +5,6 @@ import programmer_zaman_now.kotlin_restful_api.entity.Category
 
 interface CategoryRepository: JpaRepository<Category, Long> {
   fun findByIdkategori(idKategori: Long): Category?
+  
+  fun findByNamakategori(namakategori: String?): Category?
 }
