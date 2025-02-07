@@ -34,7 +34,9 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
     }
 
     override fun getnamaktg(namakategori: String): CategoryResponse {
+        println("Mencari kategori dengan nama: $namakategori") // Debugging
         val category = findCategoryNameByOrThrowNotFound(namakategori)
+        println("Kategori ditemukan: ${category.namakategori}") // Debugging
         return convertCategoryToCategoryResponse(category)
     }
 
@@ -67,7 +69,8 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
     categoryRepository.findByIdkategori(id) ?: throw NotFoundExpection()
 
     private fun findCategoryNameByOrThrowNotFound(namakategori: String): Category {
-        return categoryRepository.findByNamakategori(namakategori) ?: throw NotFoundExpection()
+        return categoryRepository.findByNamakategori(namakategori)
+            ?: throw NotFoundExpection()
     }
 
     private fun convertCategoryToCategoryResponse(category: Category): CategoryResponse {
