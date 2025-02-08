@@ -19,10 +19,10 @@ class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produk")
-    val id_produk: Long? = null,
+    val idproduk: Long? = null,
 
     @Column(name = "nama_produk")
-    var nama_produk: String,
+    var namaproduk: String,
 
     @Column(name = "created_at")
     var createdAt: Date = Date(),
