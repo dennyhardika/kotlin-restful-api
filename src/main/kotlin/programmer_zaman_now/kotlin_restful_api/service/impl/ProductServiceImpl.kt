@@ -25,7 +25,7 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
 //            throw IllegalArgumentException("User already has a profile")
 //        }
         val product = Product(
-            nama_produk = createProductRequest.nama_produk!!,
+            namaproduk = createProductRequest.namaproduk!!,
             createdAt = Date(),
             updatedAt = null,
             categories = category
@@ -33,8 +33,8 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
         productRepository.save(product)
 
         return ProductResponse(
-            id_produk = product.id_produk!!,
-            nama_produk = product.nama_produk!!,
+            idproduk = product.idproduk!!,
+            namaproduk = product.namaproduk!!,
             createdAt = product.createdAt,
             updatedAt = product.updatedAt,
             category = category.idkategori!!
@@ -46,12 +46,20 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
         return convertProductToProductResponse(product)
     }
 
-    override fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse {
+    override fun getnamapdk(namaProduk: String): ProductResponse {
+        println("Mencari kategori dengan nama: $namaProduk") // Debugging
+        val product = findProductNameByOrThrowNotFound(namaProduk)
+        println("Kategori ditemukan: ${product.namaproduk}") // Debugging
+        return convertProductToProductResponse(product)
+    }
+
+    override fun update(id: Long, updateProductRequest: UpdateProductRequest, category: Category): ProductResponse {
         val product = findProductByOrThrowNotFound(id)
 
         product.apply {
-            nama_produk = updateProductRequest.nama_produk!!
+            namaproduk = updateProductRequest.namaproduk!!
             updatedAt = Date()
+            categories = category
         }
         productRepository.save(product)
 
@@ -79,10 +87,15 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
         }
     }
 
+    private fun findProductNameByOrThrowNotFound(namaproduk: String): Product {
+        return productRepository.findByNamaproduk(namaproduk)
+            ?: throw NotFoundExpection()
+    }
+
     private fun convertProductToProductResponse(product: Product): ProductResponse {
         return ProductResponse(
-            id_produk = product.id_produk!!,
-            nama_produk = product.nama_produk,
+            idproduk = product.idproduk!!,
+            namaproduk = product.namaproduk,
             createdAt = product.createdAt,
             updatedAt = product.updatedAt,
             category = product.categories?.idkategori ?: throw IllegalStateException(" Category is null in Product")
