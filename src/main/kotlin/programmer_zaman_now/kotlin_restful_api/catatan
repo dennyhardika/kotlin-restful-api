@@ -94,7 +94,7 @@ problem : rules -> value price & quantity belum bisa sesuai
 # 4. unduh dan membuat image aplikasi (harus diperbarui bila file jar berbeda / build ulang)
 # 5. membuat container aplikasi
 
-akhirnya bisa ya
+akhirnya bisa yah
 
 # sampai dengan controller tanpa modif uprofile ok test API
 1. merubah create&update di impl uprofile, no_handphone ke Int()
