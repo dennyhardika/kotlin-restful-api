@@ -2,6 +2,7 @@ package programmer_zaman_now.kotlin_restful_api.service
 
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.entity.User
+import programmer_zaman_now.kotlin_restful_api.model.category.CategoryResponse
 import programmer_zaman_now.kotlin_restful_api.model.product.CreateProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ListProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
@@ -17,7 +18,9 @@ interface ProductService {
 
     fun get(id: Long): ProductResponse
 
-    fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse
+    fun getnamapdk(namaProduk: String): ProductResponse
+
+    fun update(id: Long, updateProductRequest: UpdateProductRequest, category: Category): ProductResponse
 
     fun delete(id: Long)
 
