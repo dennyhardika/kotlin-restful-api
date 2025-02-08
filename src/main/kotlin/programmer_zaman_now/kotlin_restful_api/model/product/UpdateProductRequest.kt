@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotNull
 data class UpdateProductRequest (
 
     @field:NotBlank
-    val nama_produk: String
+    val namaproduk: String
 
 )
