@@ -4,9 +4,9 @@ import java.util.Date
 
 data class ProductResponse(
 
-    val id_produk: Long,
+    val idproduk: Long,
 
-    val nama_produk: String,
+    val namaproduk: String,
 
     val createdAt: Date,
 
