@@ -37,7 +37,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         }
 
         if (products.size != body.productIds.size) {
-            throw IllegalArgumentException("Beberapa produk tidak ditemukan: ${body.productIds - products.map { it.id_produk }}")
+            throw IllegalArgumentException("Beberapa produk tidak ditemukan: ${body.productIds - products.map { it.idproduk }}")
         }
 
         val orderResponse = orderService.create(body, products, uprofile)
