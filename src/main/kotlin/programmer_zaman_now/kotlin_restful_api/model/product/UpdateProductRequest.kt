@@ -1,11 +1,16 @@
 package programmer_zaman_now.kotlin_restful_api.model.product
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 
 data class UpdateProductRequest (
 
     @field:NotBlank
-    val namaproduk: String
+    val namaproduk: String,
+
+    @JsonProperty("category")
+    @field:NotNull
+    val category: Long?
 
 )
