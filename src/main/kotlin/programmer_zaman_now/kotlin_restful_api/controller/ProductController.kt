@@ -43,7 +43,20 @@ class ProductController(val productService: ProductService, val categoryReposito
     }
 
     @GetMapping(
-        value = ["/api/products/{idProduct}"],
+        value = ["/api/products/name/{namaktg}"],
+        produces = ["application/json"]
+    )
+    fun getProductName(@PathVariable("namaktg") namaktg: String): WebResponse<ProductResponse> {
+        val productResponse = productService.getnamapdk(namaktg)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = productResponse
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/products/id/{idProduct}"],
         produces = ["application/json"]
     )
     fun getProduct(@PathVariable("idProduct") id: Long): WebResponse<ProductResponse> {
