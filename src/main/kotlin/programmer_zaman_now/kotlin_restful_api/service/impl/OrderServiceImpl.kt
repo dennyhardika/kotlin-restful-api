@@ -41,7 +41,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val productReposito
         return OrderResponse(
             id_order = order.id_order!!,
             id_uprofile = uprofile.id_uprofile!!,
-            productIds = products.map { it.id_produk},
+            productIds = products.map { it.idproduk},
             createdAt = order.createdAt,
             updatedAt = order.updatedAt,
             startedAt = order.startedAt,
@@ -104,7 +104,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val productReposito
         return OrderResponse(
             id_order = orders.id_order!!,
             id_uprofile = orders.uprofiles.id_uprofile!!,
-            productIds = orders.products.map { it.id_produk},
+            productIds = orders.products.map { it.idproduk},
             createdAt = orders.createdAt,
             updatedAt = orders.updatedAt,
             startedAt = orders.startedAt,
