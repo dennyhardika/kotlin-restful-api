@@ -11,6 +11,8 @@ data class CategoryResponse (
 
     val createdAt: Date,
 
-    val updatedAt: Date?
+    val updatedAt: Date?,
+
+    val group: Long
 
 )

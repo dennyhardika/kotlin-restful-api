@@ -1,6 +1,8 @@
 package programmer_zaman_now.kotlin_restful_api.service
 
 import org.springframework.stereotype.Service
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import programmer_zaman_now.kotlin_restful_api.model.category.ListCategoryRequest
 import programmer_zaman_now.kotlin_restful_api.model.category.CategoryResponse
 import programmer_zaman_now.kotlin_restful_api.model.category.CreateCategoryRequest
@@ -8,7 +10,7 @@ import programmer_zaman_now.kotlin_restful_api.model.category.UpdateCategoryRequ
 
 interface CategoryService {
 
-    fun create(createCategoryRequest: CreateCategoryRequest): CategoryResponse
+    fun create(createCategoryRequest: CreateCategoryRequest, group: Group): CategoryResponse
 
     fun get(id: Long): CategoryResponse
 

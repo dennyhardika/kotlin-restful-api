@@ -13,6 +13,8 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import java.util.Date
 
 @Entity
@@ -22,25 +24,31 @@ class Uprofile (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_uprofile")
-    val id_uprofile: Long? = null,
+    val iduprofile: Long? = null,
 
     @Column(name = "nama_lengkap")
-    var nama_lengkap: String,
+    var namalengkap: String,
 
-    @Column(name = "jenis_kendaraan")
-    var jenis_kendaraan: String,
+    @Column(name = "tipe_kendaraan")
+    var tipekendaraan: String,
+
+    @Column(name = "merek_kendaraan")
+    var merekkendaraan: String,
+
+    @Column(name = "no_plat")
+    var noplat: String,
 
     @Column(name = "alamat")
-    var alamat: String,
+    var alamat: String? = null,
 
     @Column(name = "no_handphone")
-    var no_handphone: String,
+    var nohandphone: String,
 
     @Column(name = "foto_profil")
-    var foto_profil: String,
+    var fotoprofil: String? = null,
 
     @Column(name = "foto_kendaraan")
-    var foto_kendaraan: String,
+    var fotokendaraan: String? = null,
 
     @Column(name = "created_at")
     var createdAt: Date,
@@ -51,6 +59,10 @@ class Uprofile (
     @OneToOne
     @JoinColumn(name = "id_user", unique = true)
     val user: User,
+
+    @ManyToOne
+    @JoinColumn(name = "id_grup", nullable = false)
+    val group: Group,  // Banyak Uprofile bisa memiliki satu Group
 
     @OneToMany(mappedBy = "uprofiles", fetch = FetchType.LAZY)
     val orders: List<Orders> = mutableListOf()

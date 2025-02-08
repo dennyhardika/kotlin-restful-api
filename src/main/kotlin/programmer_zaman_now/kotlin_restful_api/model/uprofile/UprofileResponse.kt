@@ -1,27 +1,34 @@
 package programmer_zaman_now.kotlin_restful_api.model.uprofile
 
 import programmer_zaman_now.kotlin_restful_api.entity.User
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import java.util.Date
 
 data class UprofileResponse(
 
-    val id_uprofile: Long,
+    val iduprofile: Long,
 
-    val nama_lengkap: String,
+    val namalengkap: String,
 
-    val jenis_kendaraan: String,
+    val tipekendaraan: String,
 
-    val alamat: String,
+    val merekkendaraan: String,
 
-    val no_handphone: String,
+    val noplat: String,
 
-    val foto_profil: String,
+    val alamat: String? = null,
 
-    val foto_kendaraan: String,
+    val nohandphone: String,
+
+    val fotoprofil: String? = null,
+
+    val fotokendaraan: String? = null,
 
     val createdAt: Date,
 
     val updatedAt: Date?,
 
-    val user: Long
+    val user: Long,
+
+    val group: Long,
 )

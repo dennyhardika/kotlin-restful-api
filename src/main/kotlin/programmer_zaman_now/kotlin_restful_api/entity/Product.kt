@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import programmer_zaman_now.kotlin_restful_api.entity.orders.Promo
 import java.util.Date
 
 @Entity
@@ -19,10 +20,10 @@ class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_produk")
-    val id_produk: Long? = null,
+    val idproduk: Long? = null,
 
     @Column(name = "nama_produk")
-    var nama_produk: String,
+    var namaproduk: String,
 
     @Column(name = "created_at")
     var createdAt: Date = Date(),
@@ -32,10 +33,13 @@ class Product(
 
     @ManyToOne
     @JoinColumn(name = "id_kategori", nullable = false)
-    var categories: Category,
+    var categories: Category
 
-    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
-    val orders: List<Orders> = mutableListOf()
+//    @ManyToMany(mappedBy = "products")
+//    var promotions: MutableList<Promo> = mutableListOf()
+
+//    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+//    val orders: List<Orders> = mutableListOf()
 
 //    @ManyToOne
 //    @JoinColumn(name = "id_kategori", nullable = false)

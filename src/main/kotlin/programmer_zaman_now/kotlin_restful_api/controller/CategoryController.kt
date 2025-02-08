@@ -8,23 +8,27 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import programmer_zaman_now.kotlin_restful_api.model.category.ListCategoryRequest
 import programmer_zaman_now.kotlin_restful_api.model.category.CategoryResponse
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.category.CreateCategoryRequest
 import programmer_zaman_now.kotlin_restful_api.model.category.UpdateCategoryRequest
+import programmer_zaman_now.kotlin_restful_api.repository.GroupRepository
+import programmer_zaman_now.kotlin_restful_api.repository.TypeRepository
 import programmer_zaman_now.kotlin_restful_api.service.CategoryService
 
 @RestController
-class CategoryController(val categoryService: CategoryService) {
+class CategoryController(val categoryService: CategoryService, val groupRepository: GroupRepository) {
 
     @PostMapping(
         value = ["/api/categories"],
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun createCategory(@RequestBody body: CreateCategoryRequest): WebResponse<CategoryResponse> {
-        val categoryResponse = categoryService.create(body)
+    fun createCategory(@RequestBody body: CreateCategoryRequest, group: Group): WebResponse<CategoryResponse> {
+        val categoryResponse = categoryService.create(body, group)
         return WebResponse(
             code = 200,
             status = "OK",

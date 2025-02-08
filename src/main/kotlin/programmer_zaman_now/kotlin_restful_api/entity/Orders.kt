@@ -1,5 +1,6 @@
 package programmer_zaman_now.kotlin_restful_api.entity
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -10,17 +11,77 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+import programmer_zaman_now.kotlin_restful_api.entity.orders.Packet
+import programmer_zaman_now.kotlin_restful_api.entity.orders.Promo
 import java.util.Date
 
 @Entity
 @Table(name = "Orders")
-class Orders (
+class Orders(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
     val id_order: Long? = null,
+
+    @Column(name = "kategori1")
+    var kategori1: String,
+
+    @Column(name = "produk1a")
+    var produk1a: String,
+
+    @Column(name = "produk1b")
+    var produk1b: String? = null,
+
+    @Column(name = "produk1c")
+    var produk1c: String? = null,
+
+    @Column(name = "produk1d")
+    var produk1d: String? = null,
+
+    @Column(name = "kategori2")
+    var kategori2: String? = null,
+
+    @Column(name = "produk2a")
+    var produk2a: String? = null,
+
+    @Column(name = "produk2b")
+    var produk2b: String? = null,
+
+    @Column(name = "produk2c")
+    var produk2c: String? = null,
+
+    @Column(name = "produk2d")
+    var produk2d: String? = null,
+
+    @Column(name = "started_at", nullable = true)
+    var startedAt: String,
+
+    @Column(name = "finished_at", nullable = true)
+    var finishedAt: String,
+
+    @Column(name = "tanggal_kedatangan")
+    var tanggalkedatangan: String,
+
+    @Column(name = "keterangan", nullable = true)
+    var keterangan: String? = null,
+
+    @Column(name = "foto_one", nullable = true)
+    var foto_one: String? = null,
+
+    @Column(name = "foto_two", nullable = true)
+    var foto_two: String? = null,
+
+    @Column(name = "status_booking")
+    var statusbooking: String,
+
+    @Column(name = "tipe_booking")
+    var tipebooking: String,
+
+    @Column(name = "nama_booking")
+    var namabooking: String,
 
     @Column(name = "created_at")
     var createdAt: Date,
@@ -28,35 +89,23 @@ class Orders (
     @Column(name = "updated_at")
     var updatedAt: Date?,
 
-    @Column(name = "started_at")
-    var startedAt: Date?,
-
-    @Column(name = "finished_at")
-    var finishedAt: Date?,
-
-    @Column(name = "keterangan")
-    var keterangan: String,
-
-    @Column(name = "foto_one")
-    var foto_one: String,
-
-    @Column(name = "foto_two")
-    var foto_two: String,
-
-    @Column(name = "status")
-    var status: String,
+//    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+//    var packets: MutableList<Packet> = mutableListOf(),  // **Ubah dari ManyToMany menjadi OneToMany**
+//
+//    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+//    var promotions: MutableList<Promo> = mutableListOf()  // **Ubah dari ManyToMany menjadi OneToMany**
 
     @ManyToOne
-    @JoinColumn(name = "id_uprofile")
+    @JoinColumn(name = "id_uprofile", nullable = false)
     val uprofiles: Uprofile,
-
-    @ManyToMany
-    @JoinTable(
-        name = "order_products",
-        joinColumns = [JoinColumn(name = "id_order")],
-        inverseJoinColumns = [JoinColumn(name = "id_produk")]
-    )
-    var products: MutableList<Product> = mutableListOf()
+//
+//    @ManyToMany
+//    @JoinTable(
+//        name = "order_products",
+//        joinColumns = [JoinColumn(name = "id_order")],
+//        inverseJoinColumns = [JoinColumn(name = "id_produk")]
+//    )
+//    var products: MutableList<Product> = mutableListOf()
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_uprofile", nullable = false)

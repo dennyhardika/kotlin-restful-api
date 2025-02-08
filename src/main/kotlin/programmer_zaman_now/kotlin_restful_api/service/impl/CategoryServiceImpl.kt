@@ -5,6 +5,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.entity.User
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
+import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
 import programmer_zaman_now.kotlin_restful_api.model.category.CategoryResponse
 import programmer_zaman_now.kotlin_restful_api.model.category.CreateCategoryRequest
@@ -12,17 +14,20 @@ import programmer_zaman_now.kotlin_restful_api.model.category.ListCategoryReques
 import programmer_zaman_now.kotlin_restful_api.model.category.UpdateCategoryRequest
 import programmer_zaman_now.kotlin_restful_api.model.user.UserResponse
 import programmer_zaman_now.kotlin_restful_api.repository.CategoryRepository
+import programmer_zaman_now.kotlin_restful_api.repository.GroupRepository
+import programmer_zaman_now.kotlin_restful_api.repository.TypeRepository
 import programmer_zaman_now.kotlin_restful_api.service.CategoryService
 import java.util.Date
 import java.util.stream.Collectors
 
 @Service
-class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryService {
-    override fun create(createCategoryRequest: CreateCategoryRequest): CategoryResponse {
+class CategoryServiceImpl(val categoryRepository: CategoryRepository, val groupRepository: GroupRepository): CategoryService {
+    override fun create(createCategoryRequest: CreateCategoryRequest, group: Group): CategoryResponse {
         val category = Category(
             namakategori = createCategoryRequest.namakategori!!,
             createdAt = Date(),
-            updatedAt = null
+            updatedAt = null,
+            group = group
         )
         categoryRepository.save(category)
         return convertCategoryToCategoryResponse(category)
@@ -78,7 +83,8 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository): CategoryS
             idkategori = category.idkategori!!,
             namakategori = category.namakategori,
             createdAt = category.createdAt,
-            updatedAt = category.updatedAt
+            updatedAt = category.updatedAt,
+            group = category.group?.idgrup ?: throw IllegalStateException("User is null in Uprofile")
         )
     }
 }

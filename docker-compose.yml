@@ -1,3 +1,4 @@
+version: "3.8"
 
 services:
 #  kotlin-restful-api:
@@ -8,7 +9,10 @@ services:
 #    environment:
 #      DATABASE_USERNAME: kotlin
 #      DATABASE_PASSWORD: kotlin
-#      DATABASE_URL: jdbc:postgresql://kotlin-restful-api-postgres:5433/restful-api
+#      DATABASE_URL: jdbc:postgresql://kotlin-restful-api-postgres:5432/restful-api
+#    volumes:
+#        - /home/uploads:/app/uploads  # Tambahkan volume ini
+
   kotlin-restful-api-postgres:
     container_name: "kotlin-restful-api-postgres"
     image: postgres:latest

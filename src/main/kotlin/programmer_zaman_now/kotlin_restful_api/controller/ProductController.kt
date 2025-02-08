@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.product.CreateProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ListProductRequest
@@ -43,7 +44,20 @@ class ProductController(val productService: ProductService, val categoryReposito
     }
 
     @GetMapping(
-        value = ["/api/products/{idProduct}"],
+        value = ["/api/products/name/{namaktg}"],
+        produces = ["application/json"]
+    )
+    fun getProductName(@PathVariable("namaktg") namaktg: String): WebResponse<ProductResponse> {
+        val productResponse = productService.getnamapdk(namaktg)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = productResponse
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/products/id/{idProduct}"],
         produces = ["application/json"]
     )
     fun getProduct(@PathVariable("idProduct") id: Long): WebResponse<ProductResponse> {
@@ -60,8 +74,9 @@ class ProductController(val productService: ProductService, val categoryReposito
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun updateUprofile(@PathVariable("idProduct") id: Long,
-                       @RequestBody updateProductRequest: UpdateProductRequest
+    fun updateProduct(
+        @PathVariable("idProduct") id: Long,
+        @RequestBody updateProductRequest: UpdateProductRequest
     ): WebResponse<ProductResponse> {
         val productResponse = productService.update(id, updateProductRequest)
         return WebResponse(
@@ -75,7 +90,7 @@ class ProductController(val productService: ProductService, val categoryReposito
         value = ["/api/products/{idProduct}"],
         produces = ["application/json"]
     )
-    fun deleteUprofile(@PathVariable("idProduct") id: Long): WebResponse<String>{
+    fun deleteProduct(@PathVariable("idProduct") id: Long): WebResponse<String>{
         val hapus =  productService.delete(id).toString()
         return WebResponse(
             code = 200,
