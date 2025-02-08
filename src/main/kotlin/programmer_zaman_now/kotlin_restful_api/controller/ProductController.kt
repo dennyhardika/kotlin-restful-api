@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.product.CreateProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ListProductRequest
@@ -74,9 +75,9 @@ class ProductController(val productService: ProductService, val categoryReposito
         consumes = ["application/json"]
     )
     fun updateUprofile(@PathVariable("idProduct") id: Long,
-                       @RequestBody updateProductRequest: UpdateProductRequest
+                       @RequestBody updateProductRequest: UpdateProductRequest, category: Category
     ): WebResponse<ProductResponse> {
-        val productResponse = productService.update(id, updateProductRequest)
+        val productResponse = productService.update(id, updateProductRequest, category)
         return WebResponse(
             code = 200,
             status = "OK",
