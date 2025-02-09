@@ -6,19 +6,21 @@ import org.springframework.stereotype.Service
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.entity.Product
 import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
+import programmer_zaman_now.kotlin_restful_api.error.NotFoundException
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
 import programmer_zaman_now.kotlin_restful_api.model.product.CreateProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ListProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 import programmer_zaman_now.kotlin_restful_api.model.product.UpdateProductRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
+import programmer_zaman_now.kotlin_restful_api.repository.CategoryRepository
 import programmer_zaman_now.kotlin_restful_api.repository.ProductRepository
 import programmer_zaman_now.kotlin_restful_api.service.ProductService
 import java.util.Date
 import java.util.stream.Collectors
 
 @Service
-class ProductServiceImpl(val productRepository: ProductRepository): ProductService {
+class ProductServiceImpl(val productRepository: ProductRepository, val categoryRepository: CategoryRepository): ProductService {
     override fun create(
         createProductRequest: CreateProductRequest, category: Category): ProductResponse {
 //        if (productRepository.findByIdOrNull(category.id_kategori) != null) {
@@ -53,14 +55,20 @@ class ProductServiceImpl(val productRepository: ProductRepository): ProductServi
         return convertProductToProductResponse(product)
     }
 
-    override fun update(id: Long, updateProductRequest: UpdateProductRequest, category: Category): ProductResponse {
+    override fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse {
         val product = findProductByOrThrowNotFound(id)
 
-        product.apply {
-            namaproduk = updateProductRequest.namaproduk!!
-            updatedAt = Date()
-            categories = category
+        // Ambil kategori jika categoryId diberikan
+        val category = updateProductRequest.idkategori?.let {
+            categoryRepository.findById(it).orElseThrow { NotFoundException("Category not found") }
         }
+
+        product.apply {
+            namaproduk = updateProductRequest.namaproduk ?: namaproduk
+            updatedAt = Date()
+            if (category != null) categories = category
+        }
+
         productRepository.save(product)
 
         return convertProductToProductResponse(product)
