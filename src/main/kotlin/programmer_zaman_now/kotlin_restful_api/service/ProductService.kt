@@ -20,7 +20,7 @@ interface ProductService {
 
     fun getnamapdk(namaProduk: String): ProductResponse
 
-    fun update(id: Long, updateProductRequest: UpdateProductRequest, category: Category): ProductResponse
+    fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse
 
     fun delete(id: Long)
 
