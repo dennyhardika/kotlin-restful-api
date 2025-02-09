@@ -74,10 +74,11 @@ class ProductController(val productService: ProductService, val categoryReposito
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun updateUprofile(@PathVariable("idProduct") id: Long,
-                       @RequestBody updateProductRequest: UpdateProductRequest, category: Category
+    fun updateProduct(
+        @PathVariable("idProduct") id: Long,
+        @RequestBody updateProductRequest: UpdateProductRequest
     ): WebResponse<ProductResponse> {
-        val productResponse = productService.update(id, updateProductRequest, category)
+        val productResponse = productService.update(id, updateProductRequest)
         return WebResponse(
             code = 200,
             status = "OK",
