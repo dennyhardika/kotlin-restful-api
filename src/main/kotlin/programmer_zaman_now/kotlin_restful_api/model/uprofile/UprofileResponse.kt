@@ -5,19 +5,19 @@ import java.util.Date
 
 data class UprofileResponse(
 
-    val id_uprofile: Long,
+    val iduprofile: Long,
 
-    val nama_lengkap: String,
+    val namalengkap: String,
 
-    val jenis_kendaraan: String,
+    val jeniskendaraan: String,
 
     val alamat: String,
 
-    val no_handphone: String,
+    val nohandphone: String,
 
-    val foto_profil: String,
+    val fotoprofil: String,
 
-    val foto_kendaraan: String,
+    val fotokendaraan: String,
 
     val createdAt: Date,
 
