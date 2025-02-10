@@ -5,21 +5,21 @@ import jakarta.validation.constraints.NotBlank
 data class UpdateUprofileRequest(
 
     @field:NotBlank
-    val nama_lengkap: String?,
+    val namalengkap: String?,
 
     @field:NotBlank
-    val jenis_kendaraan: String?,
+    val jeniskendaraan: String?,
 
     @field:NotBlank
     val alamat: String?,
 
     @field:NotBlank
-    val no_handphone: String?,
+    val nohandphone: String?,
 
     @field:NotBlank
-    val foto_profil: String?,
+    val fotoprofil: String?,
 
     @field:NotBlank
-    val foto_kendaraan: String?
+    val fotokendaraan: String?
 
 )
