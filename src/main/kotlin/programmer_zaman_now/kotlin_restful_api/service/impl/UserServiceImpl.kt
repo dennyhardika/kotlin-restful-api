@@ -70,7 +70,7 @@ class UserServiceImpl(val userRepository: UserRepository): UserService {
     }
     private fun convertUserToUserResponse(user: User): UserResponse {
         return UserResponse(
-            id_user = user.id_user!!,
+            iduser = user.iduser!!,
             username = user.username,
             password = user.password,
             createdAt = user.createdAt,
