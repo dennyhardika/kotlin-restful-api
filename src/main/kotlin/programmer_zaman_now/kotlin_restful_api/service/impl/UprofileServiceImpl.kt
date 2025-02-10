@@ -19,16 +19,16 @@ import java.util.stream.Collectors
 class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileService {
     override fun create(
         createUprofileRequest: CreateUprofileRequest, user: User): UprofileResponse {
-        if (uprofileRepository.findByIdOrNull(user.id_user) != null) {
-            throw IllegalArgumentException("User already has a profile")
-        }
+//        if (uprofileRepository.findByIdOrNull(user.iduser) != null) {
+//            throw IllegalArgumentException("User already has a profile")
+//        }
         val uprofile = Uprofile(
-            nama_lengkap = createUprofileRequest.nama_lengkap!!,
-            jenis_kendaraan = createUprofileRequest.jenis_kendaraan!!,
+            namalengkap = createUprofileRequest.namalengkap!!,
+            jeniskendaraan = createUprofileRequest.jeniskendaraan!!,
             alamat = createUprofileRequest.alamat!!,
-            no_handphone = createUprofileRequest.no_handphone!!,
-            foto_profil = createUprofileRequest.foto_profil!!,
-            foto_kendaraan = createUprofileRequest.foto_kendaraan!!,
+            nohandphone = createUprofileRequest.nohandphone!!,
+            fotoprofil = createUprofileRequest.fotoprofil!!,
+            fotokendaraan = createUprofileRequest.fotokendaraan!!,
             createdAt = Date(),
             updatedAt = null,
             user = user
@@ -36,16 +36,16 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         uprofileRepository.save(uprofile)
 
         return UprofileResponse(
-            id_uprofile = uprofile.id_uprofile!!,
-            nama_lengkap = uprofile.nama_lengkap,
-            jenis_kendaraan = uprofile.jenis_kendaraan,
+            iduprofile = uprofile.iduprofile!!,
+            namalengkap = uprofile.namalengkap,
+            jeniskendaraan = uprofile.jeniskendaraan,
             alamat = uprofile.alamat,
-            no_handphone = uprofile.no_handphone,
-            foto_profil = uprofile.foto_profil,
-            foto_kendaraan = uprofile.foto_kendaraan,
+            nohandphone = uprofile.nohandphone,
+            fotoprofil = uprofile.fotoprofil,
+            fotokendaraan = uprofile.fotokendaraan,
             createdAt = uprofile.createdAt,
             updatedAt = uprofile.updatedAt,
-            user = user.id_user!!
+            user = user.iduser!!
         )
         }
 
@@ -58,12 +58,12 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         val uprofile = findUprofileByOrThrowNotFound(id)
 
         uprofile.apply {
-            nama_lengkap = updateUprofileRequest.nama_lengkap!!
-            jenis_kendaraan = updateUprofileRequest.jenis_kendaraan!!
+            namalengkap = updateUprofileRequest.namalengkap!!
+            jeniskendaraan = updateUprofileRequest.jeniskendaraan!!
             alamat = updateUprofileRequest.alamat!!
-            no_handphone = updateUprofileRequest.no_handphone!!
-            foto_profil = updateUprofileRequest.foto_profil!!
-            foto_kendaraan = updateUprofileRequest.foto_kendaraan!!
+            nohandphone = updateUprofileRequest.nohandphone!!
+            fotoprofil = updateUprofileRequest.fotoprofil!!
+            fotokendaraan = updateUprofileRequest.fotokendaraan!!
             updatedAt = Date()
         }
 
@@ -94,16 +94,16 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
     }
     private fun convertUprofileToUprofileResponse(uprofile: Uprofile): UprofileResponse {
         return UprofileResponse(
-            id_uprofile = uprofile.id_uprofile!!,
-            nama_lengkap = uprofile.nama_lengkap,
-            jenis_kendaraan = uprofile.jenis_kendaraan,
+            iduprofile = uprofile.iduprofile!!,
+            namalengkap = uprofile.namalengkap,
+            jeniskendaraan = uprofile.jeniskendaraan,
             alamat = uprofile.alamat,
-            no_handphone = uprofile.no_handphone,
-            foto_profil = uprofile.foto_profil,
-            foto_kendaraan = uprofile.foto_kendaraan,
+            nohandphone = uprofile.nohandphone,
+            fotoprofil = uprofile.fotoprofil,
+            fotokendaraan = uprofile.fotokendaraan,
             createdAt = uprofile.createdAt,
             updatedAt = uprofile.updatedAt,
-            user = uprofile.user?.id_user ?: throw IllegalStateException("User is null in Uprofile")
+            user = uprofile.user?.iduser ?: throw IllegalStateException("User is null in Uprofile")
         )
     }
 }
