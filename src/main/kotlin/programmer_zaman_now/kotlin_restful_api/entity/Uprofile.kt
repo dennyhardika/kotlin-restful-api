@@ -22,25 +22,25 @@ class Uprofile (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_uprofile")
-    val id_uprofile: Long? = null,
+    val iduprofile: Long? = null,
 
     @Column(name = "nama_lengkap")
-    var nama_lengkap: String,
+    var namalengkap: String,
 
     @Column(name = "jenis_kendaraan")
-    var jenis_kendaraan: String,
+    var jeniskendaraan: String,
 
     @Column(name = "alamat")
     var alamat: String,
 
     @Column(name = "no_handphone")
-    var no_handphone: String,
+    var nohandphone: String,
 
     @Column(name = "foto_profil")
-    var foto_profil: String,
+    var fotoprofil: String,
 
     @Column(name = "foto_kendaraan")
-    var foto_kendaraan: String,
+    var fotokendaraan: String,
 
     @Column(name = "created_at")
     var createdAt: Date,
