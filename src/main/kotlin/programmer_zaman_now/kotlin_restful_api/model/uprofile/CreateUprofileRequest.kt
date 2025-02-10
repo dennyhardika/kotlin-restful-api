@@ -8,22 +8,22 @@ import programmer_zaman_now.kotlin_restful_api.entity.User
 data class CreateUprofileRequest (
 
     @field:NotBlank
-    val nama_lengkap: String?,
+    val namalengkap: String?,
 
     @field:NotBlank
-    val jenis_kendaraan: String?,
+    val jeniskendaraan: String?,
 
     @field:NotBlank
     val alamat: String?,
 
     @field:NotBlank
-    val no_handphone: String?,
+    val nohandphone: String?,
 
     @field:NotBlank
-    val foto_profil: String?,
+    val fotoprofil: String?,
 
     @field:NotBlank
-    val foto_kendaraan: String?,
+    val fotokendaraan: String?,
 
     @JsonProperty("user")
     @field:NotNull
