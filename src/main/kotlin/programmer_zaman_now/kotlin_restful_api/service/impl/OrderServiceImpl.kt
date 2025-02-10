@@ -40,7 +40,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val productReposito
 
         return OrderResponse(
             id_order = order.id_order!!,
-            id_uprofile = uprofile.id_uprofile!!,
+            id_uprofile = uprofile.iduprofile!!,
             productIds = products.map { it.idproduk},
             createdAt = order.createdAt,
             updatedAt = order.updatedAt,
@@ -103,7 +103,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val productReposito
     private fun convertOrderToOrderResponse(orders: Orders): OrderResponse {
         return OrderResponse(
             id_order = orders.id_order!!,
-            id_uprofile = orders.uprofiles.id_uprofile!!,
+            id_uprofile = orders.uprofiles.iduprofile!!,
             productIds = orders.products.map { it.idproduk},
             createdAt = orders.createdAt,
             updatedAt = orders.updatedAt,
