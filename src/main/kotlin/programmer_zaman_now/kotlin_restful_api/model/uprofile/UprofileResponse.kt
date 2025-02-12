@@ -11,6 +11,10 @@ data class UprofileResponse(
 
     val jeniskendaraan: String,
 
+    val merekkendaraan: String,
+
+    val noplat: String,
+
     val alamat: String,
 
     val nohandphone: String,
