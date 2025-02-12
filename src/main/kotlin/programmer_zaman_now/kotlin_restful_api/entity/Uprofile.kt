@@ -30,6 +30,12 @@ class Uprofile (
     @Column(name = "jenis_kendaraan")
     var jeniskendaraan: String,
 
+    @Column(name = "merek_kendaraan")
+    var merekkendaraan: String,
+
+    @Column(name = "no_plat")
+    var noplat: String,
+
     @Column(name = "alamat")
     var alamat: String,
 
