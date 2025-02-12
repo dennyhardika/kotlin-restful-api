@@ -11,6 +11,12 @@ data class UpdateUprofileRequest(
     val jeniskendaraan: String?,
 
     @field:NotBlank
+    val merekkendaraan: String?,
+
+    @field:NotBlank
+    val noplat: String?,
+
+    @field:NotBlank
     val alamat: String?,
 
     @field:NotBlank
