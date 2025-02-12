@@ -1,5 +1,6 @@
 package programmer_zaman_now.kotlin_restful_api.service.impl
 
+import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -25,6 +26,8 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         val uprofile = Uprofile(
             namalengkap = createUprofileRequest.namalengkap!!,
             jeniskendaraan = createUprofileRequest.jeniskendaraan!!,
+            merekkendaraan = createUprofileRequest.merekkendaraan!!,
+            noplat = createUprofileRequest.noplat!!,
             alamat = createUprofileRequest.alamat!!,
             nohandphone = createUprofileRequest.nohandphone!!,
             fotoprofil = createUprofileRequest.fotoprofil!!,
@@ -39,6 +42,8 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
             iduprofile = uprofile.iduprofile!!,
             namalengkap = uprofile.namalengkap,
             jeniskendaraan = uprofile.jeniskendaraan,
+            merekkendaraan = uprofile.merekkendaraan,
+            noplat = uprofile.noplat,
             alamat = uprofile.alamat,
             nohandphone = uprofile.nohandphone,
             fotoprofil = uprofile.fotoprofil,
@@ -60,6 +65,8 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         uprofile.apply {
             namalengkap = updateUprofileRequest.namalengkap!!
             jeniskendaraan = updateUprofileRequest.jeniskendaraan!!
+            merekkendaraan = updateUprofileRequest.merekkendaraan!!
+            noplat = updateUprofileRequest.noplat!!
             alamat = updateUprofileRequest.alamat!!
             nohandphone = updateUprofileRequest.nohandphone!!
             fotoprofil = updateUprofileRequest.fotoprofil!!
@@ -72,9 +79,13 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         return convertUprofileToUprofileResponse(uprofile)
     }
 
+    @Transactional
     override fun delete(id: Long) {
         val uprofile = findUprofileByOrThrowNotFound(id)
+        println("Menghapus Uprofile dengan ID: $id")
         uprofileRepository.delete(uprofile)
+        uprofileRepository.flush() // Memastikan perubahan langsung dikirim ke DB
+        println("Uprofile dengan ID: $id berhasil dihapus")
     }
 
     override fun list(listUprofileRequest: ListUprofileRequest): List<UprofileResponse> {
@@ -97,6 +108,8 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
             iduprofile = uprofile.iduprofile!!,
             namalengkap = uprofile.namalengkap,
             jeniskendaraan = uprofile.jeniskendaraan,
+            merekkendaraan = uprofile.merekkendaraan,
+            noplat = uprofile.noplat,
             alamat = uprofile.alamat,
             nohandphone = uprofile.nohandphone,
             fotoprofil = uprofile.fotoprofil,
