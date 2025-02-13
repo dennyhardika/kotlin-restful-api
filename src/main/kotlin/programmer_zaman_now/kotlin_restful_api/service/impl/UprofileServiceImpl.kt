@@ -22,8 +22,8 @@ import java.util.stream.Collectors
 class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRepository: UprofileRepository,val fileStorageService: FileStorageService): UprofileService {
 
     override fun create(
-        createUprofileRequest: CreateUprofileRequest, fotoProfil: User,
-        fotoKendaraan: MultipartFile?, user: MultipartFile
+        createUprofileRequest: CreateUprofileRequest, fotoProfil: MultipartFile?,
+        fotoKendaraan: MultipartFile?, user: User
     ): UprofileResponse {
 //        if (uprofileRepository.findByIdOrNull(user.iduser) != null) {
 //            throw IllegalArgumentException("User already has a profile")
