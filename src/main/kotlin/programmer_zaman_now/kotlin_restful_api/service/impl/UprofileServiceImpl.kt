@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
@@ -12,17 +13,25 @@ import programmer_zaman_now.kotlin_restful_api.model.uprofile.ListUprofileReques
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.UpdateUprofileRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.repository.UprofileRepository
+import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 import programmer_zaman_now.kotlin_restful_api.service.UprofileService
 import java.util.Date
 import java.util.stream.Collectors
 
 @Service
-class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileService {
+class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRepository: UprofileRepository,val fileStorageService: FileStorageService): UprofileService {
+
     override fun create(
-        createUprofileRequest: CreateUprofileRequest, user: User): UprofileResponse {
+        createUprofileRequest: CreateUprofileRequest, fotoProfil: User,
+        fotoKendaraan: MultipartFile?, user: MultipartFile
+    ): UprofileResponse {
 //        if (uprofileRepository.findByIdOrNull(user.iduser) != null) {
 //            throw IllegalArgumentException("User already has a profile")
 //        }
+        // Upload file jika ada, simpan path ke database
+        val fotoProfilPath = fotoProfil?.let { fileStorageService.saveFile(it) } ?: ""
+        val fotoKendaraanPath = fotoKendaraan?.let { fileStorageService.saveFile(it) } ?: ""
+
         val uprofile = Uprofile(
             namalengkap = createUprofileRequest.namalengkap!!,
             jeniskendaraan = createUprofileRequest.jeniskendaraan!!,
@@ -30,8 +39,10 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
             noplat = createUprofileRequest.noplat!!,
             alamat = createUprofileRequest.alamat!!,
             nohandphone = createUprofileRequest.nohandphone!!,
-            fotoprofil = createUprofileRequest.fotoprofil!!,
-            fotokendaraan = createUprofileRequest.fotokendaraan!!,
+//            fotoprofil = createUprofileRequest.fotoprofil!!,
+//            fotokendaraan = createUprofileRequest.fotokendaraan!!,
+            fotoprofil = fotoProfilPath,
+            fotokendaraan = fotoKendaraanPath,
             createdAt = Date(),
             updatedAt = null,
             user = user
@@ -59,7 +70,7 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
         return convertUprofileToUprofileResponse(uprofile)
     }
 
-    override fun update(id: Long, updateUprofileRequest: UpdateUprofileRequest): UprofileResponse {
+    override fun update(id: Long, updateUprofileRequest: UpdateUprofileRequest, fotoProfil: MultipartFile?, fotoKendaraan: MultipartFile?): UprofileResponse {
         val uprofile = findUprofileByOrThrowNotFound(id)
 
         uprofile.apply {
@@ -69,9 +80,13 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository): UprofileS
             noplat = updateUprofileRequest.noplat!!
             alamat = updateUprofileRequest.alamat!!
             nohandphone = updateUprofileRequest.nohandphone!!
-            fotoprofil = updateUprofileRequest.fotoprofil!!
-            fotokendaraan = updateUprofileRequest.fotokendaraan!!
+//            fotoprofil = updateUprofileRequest.fotoprofil!!
+//            fotokendaraan = updateUprofileRequest.fotokendaraan!!
             updatedAt = Date()
+
+            // Upload foto baru jika ada
+            fotoProfil?.let { fotoprofil = fileStorageService.saveFile(it) }
+            fotoKendaraan?.let { fotokendaraan = fileStorageService.saveFile(it) }
         }
 
         uprofileRepository.save(uprofile)
