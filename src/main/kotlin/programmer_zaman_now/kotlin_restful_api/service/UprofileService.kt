@@ -10,8 +10,8 @@ import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 interface UprofileService {
 
     fun create(
-        createUprofileRequest: CreateUprofileRequest, fotoProfil: User,
-        fotoKendaraan: MultipartFile?, user: MultipartFile
+        createUprofileRequest: CreateUprofileRequest, fotoProfil: MultipartFile?,
+        fotoKendaraan: MultipartFile?, user: User
     ): UprofileResponse
 
     fun get(id: Long): UprofileResponse
