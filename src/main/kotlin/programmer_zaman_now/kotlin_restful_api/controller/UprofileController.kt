@@ -128,8 +128,15 @@ fun updateUprofile(
     val existingUprofile = uprofileService.get(id)
 
     // Simpan file jika ada yang baru diunggah, jika tidak gunakan path lama
-    val fotoProfilPath = fotoprofil?.let { fileStorageService.saveFile(it) } ?: existingUprofile.fotoprofil
-    val fotoKendaraanPath = fotokendaraan?.let { fileStorageService.saveFile(it) } ?: existingUprofile.fotokendaraan
+    val fotoProfilPath = fotoprofil?.let {
+        existingUprofile.fotoprofil?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
+        fileStorageService.saveFile(it)
+    } ?: existingUprofile.fotoprofil
+
+    val fotoKendaraanPath = fotokendaraan?.let {
+        existingUprofile.fotokendaraan?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
+        fileStorageService.saveFile(it)
+    } ?: existingUprofile.fotokendaraan
 
     val request = UpdateUprofileRequest(
         namalengkap = namalengkap,
