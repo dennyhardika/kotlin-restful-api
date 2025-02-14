@@ -23,7 +23,11 @@ class FileStorageService {
         val fileName = System.currentTimeMillis().toString() + "_" + file.originalFilename
         val filePath = uploadDir.resolve(fileName)
 
+        println("📂 Menyimpan file: $fileName di lokasi: $filePath")
+
         Files.copy(file.inputStream, filePath, StandardCopyOption.REPLACE_EXISTING)
+
+        println("✅ File berhasil disimpan!")
 
         return "/uploads/$fileName" // Path yang akan disimpan di database
     }
