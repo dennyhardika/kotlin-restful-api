@@ -32,15 +32,17 @@ class FileStorageService {
 
     fun deleteFile(filename: String?) {
         if (!filename.isNullOrEmpty()) {
-            val file = File("/home/uploads/$filename")
+            // Pastikan path sesuai dengan lokasi penyimpanan file
+            val file = File(uploadDir.toFile(), filename.substringAfterLast("/"))
+
             if (file.exists()) {
                 if (file.delete()) {
-                    println("File $filename berhasil dihapus")
+                    println("✅ File $filename berhasil dihapus!")
                 } else {
-                    println("Gagal menghapus file $filename")
+                    println("⚠️ Gagal menghapus file $filename")
                 }
             } else {
-                println("File $filename tidak ditemukan")
+                println("❌ File $filename tidak ditemukan di ${file.absolutePath}")
             }
         }
     }
