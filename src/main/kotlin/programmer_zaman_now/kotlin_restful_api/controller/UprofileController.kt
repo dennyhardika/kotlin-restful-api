@@ -111,7 +111,7 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
 @PutMapping(
     value = ["/api/uprofiles/{idUprofile}"],
     produces = ["application/json"],
-    consumes = ["multipart/form-data"] // Harus multipart/form-data
+    consumes = ["multipart/form-data"]
 )
 fun updateUprofile(
     @PathVariable("idUprofile") id: Long,
@@ -121,22 +121,30 @@ fun updateUprofile(
     @RequestParam("noplat") noplat: String,
     @RequestParam("alamat") alamat: String,
     @RequestParam("nohandphone") nohandphone: String,
-    @RequestParam("fotoprofil", required = false) fotoprofil: MultipartFile?, // Tidak wajib dikirim
-    @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile? // Tidak wajib dikirim
+    @RequestParam("fotoprofil", required = false) fotoprofil: MultipartFile?,
+    @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile?
 ): WebResponse<UprofileResponse> {
 
     val existingUprofile = uprofileService.get(id)
 
-    // Simpan file jika ada yang baru diunggah, jika tidak gunakan path lama
-    val fotoProfilPath = fotoprofil?.let {
-        existingUprofile.fotoprofil?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
-        fileStorageService.saveFile(it)
-    } ?: existingUprofile.fotoprofil
+    // **Hapus file lama sebelum menyimpan yang baru**
+    val fotoProfilPath = if (fotoprofil != null) {
+        existingUprofile.fotoprofil?.let { oldFile ->
+            if (oldFile.isNotEmpty()) {
+                fileStorageService.deleteFile(oldFile)
+            }
+        }
+        fileStorageService.saveFile(fotoprofil)
+    } else existingUprofile.fotoprofil
 
-    val fotoKendaraanPath = fotokendaraan?.let {
-        existingUprofile.fotokendaraan?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
-        fileStorageService.saveFile(it)
-    } ?: existingUprofile.fotokendaraan
+    val fotoKendaraanPath = if (fotokendaraan != null) {
+        existingUprofile.fotokendaraan?.let { oldFile ->
+            if (oldFile.isNotEmpty()) {
+                fileStorageService.deleteFile(oldFile)
+            }
+        }
+        fileStorageService.saveFile(fotokendaraan)
+    } else existingUprofile.fotokendaraan
 
     val request = UpdateUprofileRequest(
         namalengkap = namalengkap,
