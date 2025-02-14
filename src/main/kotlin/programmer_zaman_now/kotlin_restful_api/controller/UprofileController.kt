@@ -51,18 +51,14 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
         @RequestParam("alamat") alamat: String,
         @RequestParam("nohandphone") nohandphone: String,
         @RequestParam("user") userId: Long,
-        @RequestParam("fotoprofil") fotoprofil: MultipartFile, // Menerima file foto profil
-        @RequestParam("fotokendaraan") fotokendaraan: MultipartFile // Menerima file foto kendaraan
+        @RequestParam("fotoprofil", required = false) fotoprofil: MultipartFile?, // Ubah ke opsional
+        @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile? // Ubah ke opsional
     ): WebResponse<UprofileResponse> {
 
         val user = userRepository.findByIdOrNull(userId)
             ?: throw IllegalArgumentException("User dengan ID $userId tidak ditemukan")
 
-        // Simpan file dan dapatkan path-nya
-        val fotoProfilPath = fileStorageService.saveFile(fotoprofil)
-        val fotoKendaraanPath = fileStorageService.saveFile(fotokendaraan)
-
-        // Buat request dengan path file
+        // Buat request tanpa langsung menyimpan file
         val request = CreateUprofileRequest(
             namalengkap = namalengkap,
             jeniskendaraan = jeniskendaraan,
@@ -70,11 +66,12 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
             noplat = noplat,
             alamat = alamat,
             nohandphone = nohandphone,
-            fotoprofil = fotoProfilPath,
-            fotokendaraan = fotoKendaraanPath,
-            user = user!!.iduser!!
+            fotoprofil = "", // Tidak perlu simpan di sini
+            fotokendaraan = "",
+            user = user.iduser!!
         )
 
+        // File hanya disimpan dalam `UprofileServiceImpl.create()`
         val uprofileResponse = uprofileService.create(request, fotoprofil, fotokendaraan, user)
 
         return WebResponse(
