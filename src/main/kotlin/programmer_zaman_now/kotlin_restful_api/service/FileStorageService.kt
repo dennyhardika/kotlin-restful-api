@@ -2,21 +2,18 @@ package programmer_zaman_now.kotlin_restful_api.service
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import java.io.File
-import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import java.util.UUID
 
 @Service
 class FileStorageService {
 
-    private val uploadDir: Path = Paths.get("uploads") // Direktori penyimpanan
+    private val uploadDir: Path = Paths.get("/app/uploads") // Direktori penyimpanan di dalam container
 
     init {
-        Files.createDirectories(uploadDir)
+        Files.createDirectories(uploadDir) // Pastikan direktori tersedia saat aplikasi dijalankan
     }
 
     fun saveFile(file: MultipartFile): String {
