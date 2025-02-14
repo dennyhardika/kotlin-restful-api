@@ -34,8 +34,11 @@ class FileStorageService {
         if (!filename.isNullOrEmpty()) {
             val file = File("/home/uploads/$filename")
             if (file.exists()) {
-                file.delete()
-                println("File $filename berhasil dihapus")
+                if (file.delete()) {
+                    println("File $filename berhasil dihapus")
+                } else {
+                    println("Gagal menghapus file $filename")
+                }
             } else {
                 println("File $filename tidak ditemukan")
             }
