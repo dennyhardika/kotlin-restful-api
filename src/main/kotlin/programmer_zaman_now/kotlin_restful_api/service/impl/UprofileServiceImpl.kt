@@ -84,9 +84,16 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRe
 //            fotokendaraan = updateUprofileRequest.fotokendaraan!!
             updatedAt = Date()
 
-            // Upload foto baru jika ada
-            fotoProfil?.let { fotoprofil = fileStorageService.saveFile(it) }
-            fotoKendaraan?.let { fotokendaraan = fileStorageService.saveFile(it) }
+            // **Hapus foto lama sebelum menyimpan yang baru**
+            fotoProfil?.let {
+                uprofile.fotoprofil?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
+                fotoprofil = fileStorageService.saveFile(it)
+            }
+
+            fotoKendaraan?.let {
+                uprofile.fotokendaraan?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
+                fotokendaraan = fileStorageService.saveFile(it)
+            }
         }
 
         uprofileRepository.save(uprofile)
