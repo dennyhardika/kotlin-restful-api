@@ -2,6 +2,7 @@ package programmer_zaman_now.kotlin_restful_api.service
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -27,5 +28,19 @@ class FileStorageService {
         println("✅ File berhasil disimpan!")
 
         return "/uploads/$fileName" // Path yang akan disimpan di database
+    }
+
+    fun deleteFile(filePath: String) {
+        try {
+            val file = File(filePath)
+            if (file.exists()) {
+                file.delete()
+                println("🗑️ File lama dihapus: $filePath")
+            } else {
+                println("⚠️ File lama tidak ditemukan: $filePath")
+            }
+        } catch (e: Exception) {
+            println("❌ Gagal menghapus file: ${e.message}")
+        }
     }
 }
