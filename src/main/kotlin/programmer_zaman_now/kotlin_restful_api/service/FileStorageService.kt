@@ -30,17 +30,15 @@ class FileStorageService {
         return "/uploads/$fileName" // Path yang akan disimpan di database
     }
 
-    fun deleteFile(filePath: String) {
-        try {
-            val file = File(filePath)
+    fun deleteFile(filename: String?) {
+        if (!filename.isNullOrEmpty()) {
+            val file = File("/home/uploads/$filename")
             if (file.exists()) {
                 file.delete()
-                println("🗑️ File lama dihapus: $filePath")
+                println("File $filename berhasil dihapus")
             } else {
-                println("⚠️ File lama tidak ditemukan: $filePath")
+                println("File $filename tidak ditemukan")
             }
-        } catch (e: Exception) {
-            println("❌ Gagal menghapus file: ${e.message}")
         }
     }
 }
