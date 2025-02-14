@@ -70,7 +70,12 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRe
         return convertUprofileToUprofileResponse(uprofile)
     }
 
-    override fun update(id: Long, updateUprofileRequest: UpdateUprofileRequest, fotoProfil: MultipartFile?, fotoKendaraan: MultipartFile?): UprofileResponse {
+    override fun update(
+        id: Long,
+        updateUprofileRequest: UpdateUprofileRequest,
+        fotoProfil: MultipartFile?,
+        fotoKendaraan: MultipartFile?
+    ): UprofileResponse {
         val uprofile = findUprofileByOrThrowNotFound(id)
 
         uprofile.apply {
@@ -80,19 +85,25 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRe
             noplat = updateUprofileRequest.noplat!!
             alamat = updateUprofileRequest.alamat!!
             nohandphone = updateUprofileRequest.nohandphone!!
-//            fotoprofil = updateUprofileRequest.fotoprofil!!
-//            fotokendaraan = updateUprofileRequest.fotokendaraan!!
             updatedAt = Date()
 
-            // **Hapus foto lama sebelum menyimpan yang baru**
-            fotoProfil?.let {
-                uprofile.fotoprofil?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
-                fotoprofil = fileStorageService.saveFile(it)
+            // **Hapus file lama jika ada dan pengguna mengupload file baru**
+            if (fotoProfil != null) {
+                uprofile.fotoprofil?.let { oldFile ->
+                    if (oldFile.isNotEmpty()) {
+                        fileStorageService.deleteFile(oldFile)
+                    }
+                }
+                fotoprofil = fileStorageService.saveFile(fotoProfil)
             }
 
-            fotoKendaraan?.let {
-                uprofile.fotokendaraan?.let { oldFile -> fileStorageService.deleteFile(oldFile) }
-                fotokendaraan = fileStorageService.saveFile(it)
+            if (fotoKendaraan != null) {
+                uprofile.fotokendaraan?.let { oldFile ->
+                    if (oldFile.isNotEmpty()) {
+                        fileStorageService.deleteFile(oldFile)
+                    }
+                }
+                fotokendaraan = fileStorageService.saveFile(fotoKendaraan)
             }
         }
 
