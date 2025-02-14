@@ -10,6 +10,9 @@ services:
       DATABASE_USERNAME: kotlin
       DATABASE_PASSWORD: kotlin
       DATABASE_URL: jdbc:postgresql://kotlin-restful-api-postgres:5432/restful-api
+    volumes:
+        - /home/uploads:/app/uploads  # Tambahkan volume ini
+
   kotlin-restful-api-postgres:
     container_name: "kotlin-restful-api-postgres"
     image: postgres:latest
