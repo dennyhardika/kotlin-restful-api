@@ -29,7 +29,8 @@ class PromoServiceImpl (val promoRepository: PromoRepository, val orderRepositor
             createdAt = Date(),
             updatedAt = null,
             namakategori = createPromoRequest.namakategori!!,
-            exppromo = createPromoRequest.exppromo!!
+            exppromo = createPromoRequest.exppromo!!,
+            iconpromo = createPromoRequest.iconpromo!!
         )
         promoRepository.save(promok)
         return convertPromoToPromoResponse(promok)
@@ -57,6 +58,7 @@ class PromoServiceImpl (val promoRepository: PromoRepository, val orderRepositor
             updatedAt = Date()
             namakategori = updatePromoRequest.namakategori!!
             exppromo = updatePromoRequest.exppromo!!
+            iconpromo = updatePromoRequest.iconpromo!!
         }
 
         promoRepository.save(promo)
@@ -93,7 +95,8 @@ class PromoServiceImpl (val promoRepository: PromoRepository, val orderRepositor
             createdAt = promo.createdAt,
             updatedAt = promo.updatedAt,
             namakategori = promo.namakategori,
-            exppromo = promo.exppromo
+            exppromo = promo.exppromo,
+            iconpromo = promo.iconpromo
         )
     }
 }
