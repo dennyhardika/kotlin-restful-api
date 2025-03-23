@@ -1,3 +1,5 @@
+package programmer_zaman_now.kotlin_restful_api.service
+
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
@@ -9,7 +11,7 @@ import java.nio.file.StandardCopyOption
 @Service
 class FileStorageService {
 
-    private val serverIp = "http://103.151.140.100:8080" // Ganti dengan IP server backend
+    private val serverIp = "http://192.168.1.100:8080" // Ganti dengan IP server backend
     private val uploadDir: Path = Paths.get("/home/user/uploads") // Direktori penyimpanan langsung di server
 
     init {
@@ -26,7 +28,8 @@ class FileStorageService {
 
         println("✅ File berhasil disimpan!")
 
-        return "$serverIp/uploads/$fileName" // Kembalikan URL lengkap agar frontend bisa mengaksesnya
+        // Kembalikan URL lengkap agar frontend bisa mengaksesnya
+        return "$serverIp/uploads/$fileName"
     }
 
     fun deleteFile(fileUrl: String?) {
