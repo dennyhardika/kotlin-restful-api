@@ -19,6 +19,9 @@ data class UpdatePromoRequest(
     val namakategori: String,
 
     @field:NotBlank
-    val exppromo: String
+    val exppromo: String,
+
+    @field:NotBlank
+    val iconpromo: String
 
 )
