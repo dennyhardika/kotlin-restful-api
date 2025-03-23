@@ -46,7 +46,10 @@ class Promo (
     var namakategori: String,
 
     @Column(name = "exp_promo")
-    var exppromo: String
+    var exppromo: String,
+
+    @Column(name = "icon_promo")
+    var iconpromo: String
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "id_order", nullable = false)  // **Tambahkan foreign key ke Orders**
