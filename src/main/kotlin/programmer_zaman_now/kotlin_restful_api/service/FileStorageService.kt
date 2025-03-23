@@ -1,5 +1,3 @@
-package programmer_zaman_now.kotlin_restful_api.service
-
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
@@ -11,7 +9,8 @@ import java.nio.file.StandardCopyOption
 @Service
 class FileStorageService {
 
-    private val uploadDir: Path = Paths.get("/app/uploads") // Direktori penyimpanan di dalam container
+    private val serverIp = "http://103.151.140.100:8080" // Ganti dengan IP server backend
+    private val uploadDir: Path = Paths.get("/home/user/uploads") // Direktori penyimpanan langsung di server
 
     init {
         Files.createDirectories(uploadDir) // Pastikan direktori tersedia saat aplikasi dijalankan
@@ -27,22 +26,22 @@ class FileStorageService {
 
         println("✅ File berhasil disimpan!")
 
-        return "/uploads/$fileName" // Path yang akan disimpan di database
+        return "$serverIp/uploads/$fileName" // Kembalikan URL lengkap agar frontend bisa mengaksesnya
     }
 
-    fun deleteFile(filename: String?) {
-        if (!filename.isNullOrEmpty()) {
-            // Pastikan path sesuai dengan lokasi penyimpanan file
-            val file = File(uploadDir.toFile(), filename.substringAfterLast("/"))
+    fun deleteFile(fileUrl: String?) {
+        if (!fileUrl.isNullOrEmpty()) {
+            val fileName = fileUrl.substringAfterLast("/") // Ambil hanya nama file
+            val file = File(uploadDir.toFile(), fileName)
 
             if (file.exists()) {
                 if (file.delete()) {
-                    println("✅ File $filename berhasil dihapus!")
+                    println("✅ File $fileName berhasil dihapus!")
                 } else {
-                    println("⚠️ Gagal menghapus file $filename")
+                    println("⚠️ Gagal menghapus file $fileName")
                 }
             } else {
-                println("❌ File $filename tidak ditemukan di ${file.absolutePath}")
+                println("❌ File $fileName tidak ditemukan di ${file.absolutePath}")
             }
         }
     }
