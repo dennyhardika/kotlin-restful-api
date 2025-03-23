@@ -1,5 +1,6 @@
 package programmer_zaman_now.kotlin_restful_api.service.impl
 
+import FileStorageService
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
@@ -156,7 +157,7 @@ class UprofileServiceImpl(val uprofileRepository: UprofileRepository, val userRe
             fotokendaraan = uprofile.fotokendaraan ?: "",
             createdAt = uprofile.createdAt,
             updatedAt = uprofile.updatedAt,
-            group = uprofile.group?.idgrup ?: throw IllegalStateException("Vehicle Type is null in Uprofile"),
+            group = uprofile.group?.idgrup ?: throw IllegalStateException("Group is null in Uprofile"),
             user = uprofile.user?.iduser ?: throw IllegalStateException("User is null in Uprofile")
         )
     }
