@@ -1,5 +1,6 @@
 package programmer_zaman_now.kotlin_restful_api.controller
 
+import FileStorageService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +18,6 @@ import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.repository.GroupRepository
 import programmer_zaman_now.kotlin_restful_api.repository.TypeRepository
 import programmer_zaman_now.kotlin_restful_api.repository.UserRepository
-import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 import programmer_zaman_now.kotlin_restful_api.service.UprofileService
 
 @RestController
