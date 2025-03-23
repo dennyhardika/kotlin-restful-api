@@ -19,7 +19,9 @@ data class PromoResponse(
 
     val namakategori: String,
 
-    val exppromo: String
+    val exppromo: String,
+
+    val iconpromo: String
 
 //    val promo: List<Long>? = emptyList(), // Bisa kosong atau tidak dikirim
 
