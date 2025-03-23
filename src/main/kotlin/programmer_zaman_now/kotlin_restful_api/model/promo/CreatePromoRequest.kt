@@ -21,6 +21,9 @@ data class CreatePromoRequest(
     @field:NotBlank
     val exppromo: String,
 
+    @field:NotBlank
+    val iconpromo: String
+
 //    @JsonProperty("order")
 //    @field:NotNull
 //    val order: Long,
