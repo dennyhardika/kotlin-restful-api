@@ -22,6 +22,7 @@ import programmer_zaman_now.kotlin_restful_api.service.OrderService
 @RestController
 class OrderController(val orderService: OrderService, val productRepository: ProductRepository, val uprofileRepository: UprofileRepository, val fileStorageService: FileStorageService) {
 
+    @Throws(IllegalArgumentException::class)
     @PostMapping(
         value = ["/api/orders"],
         produces = ["application/json"],
@@ -63,7 +64,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
             produk1c = produk1c,
             produk1d = produk1d,
             kategori2 = kategori2,
-            produk2a =  produk1a,
+            produk2a =  produk2a,
             produk2b = produk2b,
             produk2c = produk2c,
             produk2d = produk2d,
