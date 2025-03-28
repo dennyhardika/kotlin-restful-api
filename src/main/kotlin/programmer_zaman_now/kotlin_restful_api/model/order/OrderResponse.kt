@@ -26,12 +26,6 @@ data class OrderResponse(
     val produk2d: String? = null,
 
     val uprofile: Long,
-//
-//    val productIds: List<Long?>,
-
-//    val packetIds: List<Long>? = emptyList(), // Bisa kosong atau tidak dikirim
-//
-//    val promoIds: List<Long>? = emptyList(), // Bisa kosong atau tidak dikirim
 
     val id_order: Long,
 
@@ -56,4 +50,11 @@ data class OrderResponse(
     val createdAt: Date,
 
     val updatedAt: Date?
+
+    //
+//    val productIds: List<Long?>,
+
+//    val packetIds: List<Long>? = emptyList(), // Bisa kosong atau tidak dikirim
+//
+//    val promoIds: List<Long>? = emptyList(), // Bisa kosong atau tidak dikirim
 )
