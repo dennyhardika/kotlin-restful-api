@@ -41,15 +41,9 @@ data class CreateOrderRequest(
 //
 //    val promoIds: List<Long>? = emptyList(),
 
-    @field:NotBlank
-    val startedAt: String,
-
-    @field:NotBlank
-    val finishedAt: String,
 
     @field:NotBlank
     val tanggalkedatangan: String,
-
 
     val keterangan: String? = null,
 
