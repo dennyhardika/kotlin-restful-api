@@ -28,16 +28,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         consumes = ["multipart/form-data"] // Ubah menjadi multipart
     )
     fun createOrder(
-        @RequestParam("startedAt") startedAt: String,
-        @RequestParam("finishedAt") finishedAt: String,
-        @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
-        @RequestParam("keterangan") keterangan: String?,
-        @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
-        @RequestParam("foto_two", required = false) foto_two: MultipartFile?, // Ubah ke opsional
-        @RequestParam("statusbooking") statusbooking: String,
-        @RequestParam("tipebooking") tipebooking: String,
-        @RequestParam("namabooking") namabooking: String,
-        @RequestParam("uprofile") uprofileId: Long,
         @RequestParam("kategori1") kategori1: String,
         @RequestParam("produk1a") produk1a: String,
         @RequestParam("produk1b") produk1b: String,
@@ -47,7 +37,17 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         @RequestParam("produk2a") produk2a: String,
         @RequestParam("produk2b") produk2b: String,
         @RequestParam("produk2c") produk2c: String,
-        @RequestParam("produk2d") produk2d: String
+        @RequestParam("produk2d") produk2d: String,
+        @RequestParam("startedAt") startedAt: String,
+        @RequestParam("finishedAt") finishedAt: String,
+        @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
+        @RequestParam("keterangan") keterangan: String?,
+        @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
+        @RequestParam("foto_two", required = false) foto_two: MultipartFile?, // Ubah ke opsional
+        @RequestParam("statusbooking") statusbooking: String,
+        @RequestParam("tipebooking") tipebooking: String,
+        @RequestParam("namabooking") namabooking: String,
+        @RequestParam("uprofile") uprofileId: Long
 //        @RequestParam("packetIds") packetIds: List<Long>?, // Tambahkan daftar ID paket
 //        @RequestParam("promoIds") promoIds: List<Long>? // Tambahkan daftar ID promo
 
@@ -57,16 +57,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
             ?: throw IllegalArgumentException("User dengan ID $uprofileId tidak ditemukan")
 
         val request = CreateOrderRequest(
-            startedAt = startedAt,
-            finishedAt = finishedAt,
-            tanggalkedatangan = tanggalkedatangan,
-            keterangan = keterangan ?: "",  // Default kosong jika null
-            foto_one = "",
-            foto_two = "",
-            statusbooking = statusbooking,
-            tipebooking = tipebooking,
-            namabooking = namabooking,
-            uprofile = uprofile.iduprofile!!,
             kategori1 = kategori1,
             produk1a =  produk1a,
             produk1b = produk1b,
@@ -76,7 +66,17 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
             produk2a =  produk1a,
             produk2b = produk2b,
             produk2c = produk2c,
-            produk2d = produk2d
+            produk2d = produk2d,
+            startedAt = startedAt,
+            finishedAt = finishedAt,
+            tanggalkedatangan = tanggalkedatangan,
+            keterangan = keterangan ?: "",  // Default kosong jika null
+            foto_one = "",
+            foto_two = "",
+            statusbooking = statusbooking,
+            tipebooking = tipebooking,
+            namabooking = namabooking,
+            uprofile = uprofile.iduprofile!!
 //            packetIds = packetIds ?: emptyList(), // Default kosong jika null
 //            promoIds = promoIds ?: emptyList() // Default kosong jika null
         )
