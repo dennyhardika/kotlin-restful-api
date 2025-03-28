@@ -40,8 +40,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         @RequestParam("produk2b") produk2b: String,
         @RequestParam("produk2c") produk2c: String,
         @RequestParam("produk2d") produk2d: String,
-        @RequestParam("startedAt") startedAt: String,
-        @RequestParam("finishedAt") finishedAt: String,
         @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
         @RequestParam("keterangan") keterangan: String?,
         @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
@@ -70,8 +68,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
             produk2b = produk2b,
             produk2c = produk2c,
             produk2d = produk2d,
-            startedAt = startedAt,
-            finishedAt = finishedAt,
             tanggalkedatangan = tanggalkedatangan,
             keterangan = keterangan ?: "",  // Default kosong jika null
             foto_one = "",
@@ -113,8 +109,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
     fun updateOrder(
         @PathVariable("idOrder") id: Long,
         @RequestParam("iconorder") iconorder: String,
-        @RequestParam("startedAt") startedAt: String,
-        @RequestParam("finishedAt") finishedAt: String,
         @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
         @RequestParam("keterangan") keterangan: String?,
         @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
@@ -152,8 +146,6 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
 
         val request = UpdateOrderRequest(
             iconorder = iconorder,
-            startedAt = startedAt,
-            finishedAt = finishedAt,
             tanggalkedatangan = tanggalkedatangan,
             keterangan = keterangan ?: "",
             foto_one = fotoOnePath,
