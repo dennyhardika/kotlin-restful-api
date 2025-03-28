@@ -26,6 +26,9 @@ class Orders(
     @Column(name = "id_order")
     val id_order: Long? = null,
 
+    @Column(name = "icon_order")
+    var iconorder: String,
+
     @Column(name = "kategori1")
     var kategori1: String,
 
