@@ -31,10 +31,6 @@ data class OrderResponse(
 
     val id_order: Long,
 
-    val startedAt: String,
-
-    val finishedAt: String,
-
     val tanggalkedatangan: String,
 
     val keterangan: String? = null,
