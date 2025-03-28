@@ -5,6 +5,8 @@ import java.util.Date
 
 data class OrderResponse(
 
+    val id_order: Long,
+
     val iconorder: String,
 
     val kategori1: String,
@@ -27,10 +29,6 @@ data class OrderResponse(
 
     val produk2d: String? = null,
 
-    val uprofile: Long,
-
-    val id_order: Long,
-
     val tanggalkedatangan: String,
 
     val keterangan: String? = null,
@@ -44,6 +42,8 @@ data class OrderResponse(
     val tipebooking: String,
 
     val namabooking: String,
+
+    val uprofile: Long,
 
     val createdAt: Date,
 
