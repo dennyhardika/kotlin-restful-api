@@ -31,9 +31,6 @@ data class CreateOrderRequest(
 
     val produk2d: String? = null,
 
-    @JsonProperty("uprofile")
-    @field:NotNull
-    val uprofile: Long?,
 //
 //    val productIds: List<Long>,
 
@@ -66,7 +63,11 @@ data class CreateOrderRequest(
     val tipebooking: String,
 
     @field:NotBlank
-    val namabooking: String
+    val namabooking: String,
+
+    @JsonProperty("uprofile")
+    @field:NotNull
+    val uprofile: Long?,
 
 
 )
