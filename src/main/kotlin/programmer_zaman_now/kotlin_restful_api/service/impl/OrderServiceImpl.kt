@@ -29,8 +29,11 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 //        val packetss = if (!createOrderRequest.packetIds.isNullOrEmpty()) packetRepository.findAllById(createOrderRequest.packetIds) else emptyList()
 //        val promoss = if (!createOrderRequest.promoIds.isNullOrEmpty()) promoRepository.findAllById(createOrderRequest.promoIds) else emptyList()
 
-        val fotoOnePath = fotoOne?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
-        val fotoTwoPath = fotoTwo?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
+//        val fotoOnePath = fotoOne?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
+//        val fotoTwoPath = fotoTwo?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
+
+        val fotoOnePath = fotoOne?.let { fileStorageService.saveFile(it) } ?: ""
+        val fotoTwoPath = fotoTwo?.let { fileStorageService.saveFile(it) } ?: ""
 
         // **Ambil `namapromo` dari promo pertama jika ada, jika tidak gunakan default "Regular"**
         // 🚀 Ambil `namapromo` atau `namapacket` jika ada, prioritas promo lebih dulu
@@ -38,17 +41,6 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 
 
         val order = Orders(
-            startedAt = createOrderRequest.startedAt,
-            finishedAt = createOrderRequest.finishedAt,
-            tanggalkedatangan = createOrderRequest.tanggalkedatangan,
-            keterangan = createOrderRequest.keterangan ?: "",
-            foto_one = fotoOnePath,
-            foto_two = fotoTwoPath,
-            statusbooking = createOrderRequest.statusbooking,
-            tipebooking = createOrderRequest.tipebooking,
-            namabooking = createOrderRequest.namabooking,
-            createdAt = Date(),
-            updatedAt = null,
             kategori1 = createOrderRequest.kategori1,
             produk1a = createOrderRequest.produk1a,
             produk1b = createOrderRequest.produk1b ?: "",
@@ -59,7 +51,18 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             produk2b = createOrderRequest.produk2b ?: "",
             produk2c = createOrderRequest.produk2c ?: "",
             produk2d = createOrderRequest.produk2d ?: "",
-            uprofiles = uprofile
+            startedAt = createOrderRequest.startedAt,
+            finishedAt = createOrderRequest.finishedAt,
+            tanggalkedatangan = createOrderRequest.tanggalkedatangan,
+            keterangan = createOrderRequest.keterangan ?: "",
+            foto_one = fotoOnePath,
+            foto_two = fotoTwoPath,
+            statusbooking = createOrderRequest.statusbooking,
+            tipebooking = createOrderRequest.tipebooking,
+            namabooking = createOrderRequest.namabooking,
+            uprofiles = uprofile,
+            createdAt = Date(),
+            updatedAt = null,
 //            packets = packetss.toMutableList(),
 //            promotions = promoss.toMutableList()
         )
@@ -156,17 +159,6 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             id_order = orders.id_order!!,
 //            packetIds = orders.packets.map { it.idpaket!! }, // Jika kosong, akan jadi `emptyList()`
 //            promoIds = orders.promotions.map { it.idpromo!! }, // Jika kosong, akan jadi `emptyList()`
-            createdAt = orders.createdAt,
-            updatedAt = orders.updatedAt,
-            startedAt = orders.startedAt,
-            finishedAt = orders.finishedAt,
-            tanggalkedatangan = orders.tanggalkedatangan!!,
-            keterangan = orders.keterangan ?: "",
-            foto_one = orders.foto_one ?: "",
-            foto_two = orders.foto_two ?: "",
-            statusbooking = orders.statusbooking,
-            tipebooking = orders.tipebooking,
-            namabooking = orders.namabooking,
             kategori1 = orders.kategori1,
             produk1a = orders.produk1a,
             produk1b = orders.produk1b ?: "",
@@ -177,7 +169,18 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             produk2b = orders.produk2b ?: "",
             produk2c = orders.produk2c ?: "",
             produk2d = orders.produk2d ?: "",
-            uprofile = orders.uprofiles?.iduprofile ?: throw IllegalStateException("User is null in Uprofile")
+            startedAt = orders.startedAt,
+            finishedAt = orders.finishedAt,
+            tanggalkedatangan = orders.tanggalkedatangan!!,
+            keterangan = orders.keterangan ?: "",
+            foto_one = orders.foto_one ?: "",
+            foto_two = orders.foto_two ?: "",
+            statusbooking = orders.statusbooking,
+            tipebooking = orders.tipebooking,
+            namabooking = orders.namabooking,
+            uprofile = orders.uprofiles?.iduprofile ?: throw IllegalStateException("User is null in Uprofile"),
+            createdAt = orders.createdAt,
+            updatedAt = orders.updatedAt,
         )
     }
 
