@@ -45,6 +45,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 
 
         val order = Orders(
+            iconorder = createOrderRequest.iconorder,
             kategori1 = createOrderRequest.kategori1,
             produk1a = createOrderRequest.produk1a,
             produk1b = createOrderRequest.produk1b ?: "",
@@ -92,6 +93,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 
 
         order.apply {
+            iconorder = updateOrderRequest.iconorder
             updatedAt = Date()
             startedAt = updateOrderRequest.startedAt
             finishedAt = updateOrderRequest.finishedAt
@@ -161,6 +163,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
     private fun convertOrderToOrderResponse(orders: Orders): OrderResponse {
         return OrderResponse(
             id_order = orders.id_order!!,
+            iconorder = orders.iconorder!!,
 //            packetIds = orders.packets.map { it.idpaket!! }, // Jika kosong, akan jadi `emptyList()`
 //            promoIds = orders.promotions.map { it.idpromo!! }, // Jika kosong, akan jadi `emptyList()`
             kategori1 = orders.kategori1,
