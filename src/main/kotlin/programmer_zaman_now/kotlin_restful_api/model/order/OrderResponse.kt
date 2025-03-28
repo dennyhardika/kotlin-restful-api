@@ -5,6 +5,8 @@ import java.util.Date
 
 data class OrderResponse(
 
+    val iconorder: String,
+
     val kategori1: String,
 
     val produk1a: String,
