@@ -56,8 +56,6 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             produk2b = createOrderRequest.produk2b ?: "",
             produk2c = createOrderRequest.produk2c ?: "",
             produk2d = createOrderRequest.produk2d ?: "",
-            startedAt = createOrderRequest.startedAt,
-            finishedAt = createOrderRequest.finishedAt,
             tanggalkedatangan = createOrderRequest.tanggalkedatangan,
             keterangan = createOrderRequest.keterangan ?: "",
             foto_one = fotoOnePath,
@@ -95,8 +93,6 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
         order.apply {
             iconorder = updateOrderRequest.iconorder
             updatedAt = Date()
-            startedAt = updateOrderRequest.startedAt
-            finishedAt = updateOrderRequest.finishedAt
             tanggalkedatangan = updateOrderRequest.tanggalkedatangan
             keterangan = updateOrderRequest.keterangan ?: ""
             statusbooking = updateOrderRequest.statusbooking
@@ -176,8 +172,6 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             produk2b = orders.produk2b ?: "",
             produk2c = orders.produk2c ?: "",
             produk2d = orders.produk2d ?: "",
-            startedAt = orders.startedAt,
-            finishedAt = orders.finishedAt,
             tanggalkedatangan = orders.tanggalkedatangan!!,
             keterangan = orders.keterangan ?: "",
             foto_one = orders.foto_one ?: "",
