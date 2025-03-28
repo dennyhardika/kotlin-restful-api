@@ -83,21 +83,23 @@ class Orders(
     @Column(name = "nama_booking")
     var namabooking: String,
 
+    @ManyToOne
+    @JoinColumn(name = "id_uprofile", nullable = false)
+    val uprofiles: Uprofile,
+
     @Column(name = "created_at")
     var createdAt: Date,
 
     @Column(name = "updated_at")
-    var updatedAt: Date?,
+    var updatedAt: Date?
 
-//    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+
+    //    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
 //    var packets: MutableList<Packet> = mutableListOf(),  // **Ubah dari ManyToMany menjadi OneToMany**
 //
 //    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
 //    var promotions: MutableList<Promo> = mutableListOf()  // **Ubah dari ManyToMany menjadi OneToMany**
 
-    @ManyToOne
-    @JoinColumn(name = "id_uprofile", nullable = false)
-    val uprofiles: Uprofile,
 //
 //    @ManyToMany
 //    @JoinTable(
