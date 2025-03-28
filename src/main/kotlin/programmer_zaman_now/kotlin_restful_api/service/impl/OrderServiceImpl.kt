@@ -35,6 +35,10 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
         val fotoOnePath = fotoOne?.let { fileStorageService.saveFile(it) } ?: ""
         val fotoTwoPath = fotoTwo?.let { fileStorageService.saveFile(it) } ?: ""
 
+        if (createOrderRequest.uprofile == null) {
+            throw IllegalArgumentException("User profile tidak boleh null")
+        }
+
         // **Ambil `namapromo` dari promo pertama jika ada, jika tidak gunakan default "Regular"**
         // 🚀 Ambil `namapromo` atau `namapacket` jika ada, prioritas promo lebih dulu
 //        val tipeBookingValue = promoss.firstOrNull()?.namapromo ?: packetss.firstOrNull()?.namapaket ?: "Regular"
