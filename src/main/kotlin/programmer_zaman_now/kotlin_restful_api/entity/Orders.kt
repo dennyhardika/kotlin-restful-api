@@ -59,12 +59,6 @@ class Orders(
     @Column(name = "produk2d")
     var produk2d: String? = null,
 
-    @Column(name = "started_at", nullable = true)
-    var startedAt: String,
-
-    @Column(name = "finished_at", nullable = true)
-    var finishedAt: String,
-
     @Column(name = "tanggal_kedatangan")
     var tanggalkedatangan: String,
 
