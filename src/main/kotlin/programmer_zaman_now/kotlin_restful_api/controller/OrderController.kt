@@ -102,7 +102,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
     }
 
     @GetMapping(
-        value = ["/api/orders/idu{iduprofile}"]
+        value = ["/api/orders/idu/{iduprofile}"]
     )
     fun getOrdersByCustomerId(@PathVariable iduprofile: Long): WebResponse<List<OrderResponse>> {
         val orders = orderService.getOrdersByCustomerId(iduprofile)
