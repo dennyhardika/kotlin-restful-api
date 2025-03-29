@@ -101,6 +101,18 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         )
     }
 
+    @GetMapping(
+        value = ["/api/orders/idu{iduprofile}"]
+    )
+    fun getOrdersByCustomerId(@PathVariable iduprofile: Long): WebResponse<List<OrderResponse>> {
+        val orders = orderService.getOrdersByCustomerId(iduprofile)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orders
+        )
+    }
+
     @PutMapping(
         value = ["/api/orders/{idOrder}"],
         produces = ["application/json"],
