@@ -79,6 +79,11 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
         return convertOrderToOrderResponse(order)
     }
 
+    override fun getOrdersByCustomerId(iduprofile: Long): List<OrderResponse> {
+        val orders = orderRepository.findByUprofiles_Iduprofile(iduprofile)
+        return orders.map { order -> convertOrderToOrderResponse(order) }
+    }
+
     override fun update(id: Long, updateOrderRequest: UpdateOrderRequest, fotoOne: MultipartFile?, fotoTwo: MultipartFile?): OrderResponse {
         val order = findOrderByOrThrowNotFound(id)
 
