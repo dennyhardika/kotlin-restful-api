@@ -13,6 +13,8 @@ interface OrderService {
 
     fun get(id: Long): OrderResponse
 
+    fun getOrdersByCustomerId(iduprofile: Long): List<OrderResponse>
+
     fun update(id: Long, updateOrderRequest: UpdateOrderRequest, fotoOne: MultipartFile?, fotoTwo: MultipartFile?): OrderResponse
 
     fun delete(id: Long)
