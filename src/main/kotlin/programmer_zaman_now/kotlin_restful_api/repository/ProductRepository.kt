@@ -12,4 +12,7 @@ interface ProductRepository : JpaRepository<Product, Long>{
 
     @Query("SELECT c FROM Product c WHERE LOWER(c.namaproduk) = LOWER(:namaproduk)")
     fun findByNamaproduk(@Param("namaproduk") namaproduk: String): Product?
+
+    // Query untuk mencari produk berdasarkan ID kategori
+    fun findByCategories_Idkategori(categoryId: Long): List<Product>
 }
