@@ -3,6 +3,7 @@ package programmer_zaman_now.kotlin_restful_api.controller
 import jakarta.validation.Valid
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -68,6 +69,16 @@ class ProductController(val productService: ProductService, val categoryReposito
             status = "OK",
             data = productResponse
         )
+    }
+
+    // Endpoint baru untuk mendapatkan produk berdasarkan kategori
+    @GetMapping(
+        value = ["/api/products/ctg/{idKategori}"],
+        produces = ["application/json"]
+    )
+    fun getProductsByCategory(@PathVariable ("idKategori") id: Long): ResponseEntity<List<ProductResponse>> {
+        val productResponse = productService.getProductsByCategory(id)
+        return ResponseEntity.ok(productResponse)
     }
 
     @PutMapping(
