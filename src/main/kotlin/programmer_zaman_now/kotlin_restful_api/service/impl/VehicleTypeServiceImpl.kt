@@ -55,7 +55,7 @@ class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandReposi
         val brand = updateTypeRequest.brand?.let {
             brandRepository.findById(it).orElseThrow { NotFoundException("Brand not found") }
         }
-        val group = updateTypeRequest.group?.let {
+        val group = updateTypeRequest.idgrup?.let {
             groupRepository.findById(it).orElseThrow { NotFoundException("Group not found") }
         }
 
