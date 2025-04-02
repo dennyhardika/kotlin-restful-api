@@ -10,8 +10,7 @@ data class CreateProductRequest(
         @field:NotBlank
         val namaproduk: String,
 
-        @JsonProperty("category")
         @field:NotNull
-        val category: Long?
+        val idkategori: Long
 
 )
