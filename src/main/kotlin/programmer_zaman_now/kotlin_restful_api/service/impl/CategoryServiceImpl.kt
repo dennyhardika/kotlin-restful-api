@@ -2,7 +2,9 @@ package programmer_zaman_now.kotlin_restful_api.service.impl
 
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
@@ -48,9 +50,14 @@ class CategoryServiceImpl(val categoryRepository: CategoryRepository, val groupR
     override fun update(id: Long, updateCategoryRequest: UpdateCategoryRequest): CategoryResponse {
         val category = findCategoryByOrThrowNotFound(id)
 
+        // Ambil group berdasarkan idGrup dari request
+        val group = groupRepository.findById(updateCategoryRequest.idgrup)
+            .orElseThrow { throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Group tidak ditemukan") }
+
         category.apply {
             namakategori = updateCategoryRequest.namakategori!!
             updatedAt = Date()
+            this.group = group  // Update group
         }
 
         categoryRepository.save(category)
