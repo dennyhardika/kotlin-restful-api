@@ -1,5 +1,6 @@
 package programmer_zaman_now.kotlin_restful_api.controller
 
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
 import programmer_zaman_now.kotlin_restful_api.model.category.ListCategoryRequest
@@ -27,7 +29,9 @@ class CategoryController(val categoryService: CategoryService, val groupReposito
         produces = ["application/json"],
         consumes = ["application/json"]
     )
-    fun createCategory(@RequestBody body: CreateCategoryRequest, group: Group): WebResponse<CategoryResponse> {
+    fun createCategory(@RequestBody body: CreateCategoryRequest): WebResponse<CategoryResponse> {
+        val group = groupRepository.findById(body.idgrup)
+            .orElseThrow { throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Group tidak ditemukan") }
         val categoryResponse = categoryService.create(body, group)
         return WebResponse(
             code = 200,
@@ -68,9 +72,9 @@ class CategoryController(val categoryService: CategoryService, val groupReposito
         consumes = ["application/json"]
     )
     fun updateCategory(@PathVariable("idCategory") id: Long,
-                      @RequestBody updateCategoryWithProductsRequest: UpdateCategoryRequest
+                      @RequestBody updateCategoryRequest: UpdateCategoryRequest
     ): WebResponse<CategoryResponse> {
-        val categoryResponse = categoryService.update(id, updateCategoryWithProductsRequest)
+        val categoryResponse = categoryService.update(id, updateCategoryRequest)
         return WebResponse(
             code = 200,
             status = "OK",
