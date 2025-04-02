@@ -46,4 +46,4 @@ class VehicleType (
     @JoinColumn(name = "id_grup", nullable = false)  // Foreign Key ke Group
     var group: Group
 
-) 
+)
