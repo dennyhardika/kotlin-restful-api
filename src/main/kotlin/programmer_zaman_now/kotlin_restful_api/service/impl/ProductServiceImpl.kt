@@ -54,6 +54,15 @@ class ProductServiceImpl(val productRepository: ProductRepository, val categoryR
         return convertProductToProductResponse(product)
     }
 
+    // Metode baru untuk mendapatkan produk berdasarkan kategori
+    override fun getProductsByCategory(categoryId: Long): List<ProductResponse> {
+        // Ambil semua produk berdasarkan categoryId
+        val products = productRepository.findByCategories_Idkategori(categoryId)
+
+        // Mengonversi daftar produk ke daftar response untuk API
+        return products.map { convertProductToProductResponse(it) }
+    }
+
     override fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse {
         val product = findProductByOrThrowNotFound(id)
 
