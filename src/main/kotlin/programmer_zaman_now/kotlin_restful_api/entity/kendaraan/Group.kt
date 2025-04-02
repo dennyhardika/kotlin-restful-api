@@ -36,7 +36,7 @@ class Group (
     val uprofile: List<Uprofile> = mutableListOf(),  // Satu VehicleType bisa digunakan banyak Uprofile
 
 
-    @OneToMany(mappedBy = "groups", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, targetEntity = VehicleType::class)
+    @OneToMany(mappedBy = "group", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, targetEntity = VehicleType::class)
     @JsonIgnore
     var vehicleTypes: MutableList<VehicleType> = mutableListOf()  // Perbaiki tipe menjadi MutableList<VehicleType>
 )
