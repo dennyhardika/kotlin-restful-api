@@ -36,8 +36,8 @@ class VehicleTypeController (val vehicleTypeService: VehicleTypeService, val bra
     fun createVehicleType(@Valid @RequestBody body: CreateTypeRequest): WebResponse<TypeResponse> {
         val brand = brandRepository.findByIdOrNull(body.brand)
             ?: throw IllegalArgumentException("Brand dengan ID ${body.brand} tidak ditemukan")
-        val grup = groupRepository.findByIdOrNull(body.group)
-            ?: throw IllegalArgumentException("Group dengan ID ${body.group} tidak ditemukan")
+        val grup = groupRepository.findByIdOrNull(body.idgrup)
+            ?: throw IllegalArgumentException("Group dengan ID ${body.idgrup} tidak ditemukan")
 
         val vehicletypeResponse = vehicleTypeService.create(body, brand, grup)
         return WebResponse(
