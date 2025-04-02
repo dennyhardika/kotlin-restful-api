@@ -11,6 +11,6 @@ data class CreateCategoryRequest(
 
     @JsonProperty("group")
     @field:NotNull
-    val group: Long?
+    val idgrup: Long
 
 )
