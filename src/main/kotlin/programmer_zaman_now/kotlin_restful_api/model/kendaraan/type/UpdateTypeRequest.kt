@@ -12,6 +12,6 @@ data class UpdateTypeRequest (
     val brand: Long?,
 
     @field:NotNull
-    val group: Long?
+    val idgrup: Long?
 
 )
