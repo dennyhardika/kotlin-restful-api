@@ -2,7 +2,9 @@ package programmer_zaman_now.kotlin_restful_api.service.impl
 
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.entity.Product
 import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
@@ -23,9 +25,6 @@ import java.util.stream.Collectors
 class ProductServiceImpl(val productRepository: ProductRepository, val categoryRepository: CategoryRepository): ProductService {
     override fun create(
         createProductRequest: CreateProductRequest, category: Category): ProductResponse {
-//        if (productRepository.findByIdOrNull(category.id_kategori) != null) {
-//            throw IllegalArgumentException("User already has a profile")
-//        }
         val product = Product(
             namaproduk = createProductRequest.namaproduk!!,
             createdAt = Date(),
@@ -58,15 +57,15 @@ class ProductServiceImpl(val productRepository: ProductRepository, val categoryR
     override fun update(id: Long, updateProductRequest: UpdateProductRequest): ProductResponse {
         val product = findProductByOrThrowNotFound(id)
 
-        // Ambil kategori jika categoryId diberikan
-        val category = updateProductRequest.idkategori?.let {
-            categoryRepository.findById(it).orElseThrow { NotFoundException("Category not found") }
-        }
+        // Ambil group berdasarkan idGrup dari request
+        val ktg = categoryRepository.findById(updateProductRequest.idkategori)
+            .orElseThrow { throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Group tidak ditemukan") }
+
 
         product.apply {
             namaproduk = updateProductRequest.namaproduk ?: namaproduk
             updatedAt = Date()
-            if (category != null) categories = category
+            this.categories = ktg
         }
 
         productRepository.save(product)
