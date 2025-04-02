@@ -9,6 +9,7 @@ data class UpdateProductRequest (
     @field:NotBlank
     val namaproduk: String,
 
-    val idkategori: Long?
+    @field:NotNull
+    val idkategori: Long
 
 )
