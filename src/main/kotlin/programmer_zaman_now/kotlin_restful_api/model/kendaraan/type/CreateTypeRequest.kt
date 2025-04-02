@@ -15,6 +15,6 @@ data class CreateTypeRequest(
 
     @JsonProperty("group")
     @field:NotNull
-    val group: Long?
+    val idgrup: Long?
 
 )
