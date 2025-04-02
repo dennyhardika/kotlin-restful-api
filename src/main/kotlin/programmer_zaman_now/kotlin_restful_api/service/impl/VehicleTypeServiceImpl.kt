@@ -29,18 +29,11 @@ class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandReposi
             createdAt = Date(),
             updatedAt = null,
             brands = brand,
-            group = group
+            groups = group
         )
         typeRepository.save(vehicletype)
 
-        return TypeResponse(
-            idtipe = vehicletype.idtipe!!,
-            tipekendaraan = vehicletype.tipekendaraan!!,
-            createdAt = vehicletype.createdAt,
-            updatedAt = vehicletype.updatedAt,
-            brand = brand.idmerek!!,
-            group = group.idgrup!!
-        )
+        return convertVehicleTypeToVehicleTypeResponse(vehicletype)
     }
 
     override fun get(id: Long): TypeResponse {
@@ -59,14 +52,18 @@ class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandReposi
         val vehicletype = findVehicleTypeByOrThrowNotFound(id)
 
         // Ambil kategori jika categoryId diberikan
-        val brand = updateTypeRequest.idmerek?.let {
+        val brand = updateTypeRequest.brand?.let {
             brandRepository.findById(it).orElseThrow { NotFoundException("Brand not found") }
+        }
+        val group = updateTypeRequest.group?.let {
+            groupRepository.findById(it).orElseThrow { NotFoundException("Group not found") }
         }
 
         vehicletype.apply {
             tipekendaraan = updateTypeRequest.tipekendaraan ?: tipekendaraan
             updatedAt = Date()
             if (brand != null) brands = brand
+            if (group != null) groups = group
         }
 
         typeRepository.save(vehicletype)
@@ -102,7 +99,7 @@ class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandReposi
             createdAt = vehicleType.createdAt,
             updatedAt = vehicleType.updatedAt,
             brand = vehicleType.brands?.idmerek ?: throw IllegalStateException(" Brand is null in Vehicle Type"),
-            group = vehicleType.group?.idgrup ?: throw IllegalStateException(" Group is null in Vehicle Type")
+            group = vehicleType.groups?.idgrup ?: throw IllegalStateException(" Group is null in Vehicle Type")
         )
     }
 }
