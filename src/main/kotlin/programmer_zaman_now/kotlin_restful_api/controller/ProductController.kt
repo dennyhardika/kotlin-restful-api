@@ -2,6 +2,7 @@ package programmer_zaman_now.kotlin_restful_api.controller
 
 import jakarta.validation.Valid
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import programmer_zaman_now.kotlin_restful_api.entity.Category
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.product.CreateProductRequest
@@ -32,10 +34,9 @@ class ProductController(val productService: ProductService, val categoryReposito
         consumes = ["application/json"]
     )
     fun createProduct(@Valid @RequestBody body: CreateProductRequest): WebResponse<ProductResponse> {
-        val category = categoryRepository.findByIdOrNull(body.category)
-            ?: throw IllegalArgumentException("Category dengan ID ${body.category} tidak ditemukan")
-
-        val productResponse = productService.create(body, category)
+        val ktg = categoryRepository.findById(body.idkategori)
+            .orElseThrow { throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Category tidak ditemukan") }
+        val productResponse = productService.create(body, ktg)
         return WebResponse(
             code = 200,
             status = "OK",
