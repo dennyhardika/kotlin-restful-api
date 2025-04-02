@@ -40,7 +40,7 @@ class Category (
 
     @ManyToOne
     @JoinColumn(name = "id_grup", nullable = false)
-    var group: Group? = null
+    var group: Group
 
 //    @OneToOne(mappedBy = "category", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, optional = false)
 //    var promo: Promo? = null
