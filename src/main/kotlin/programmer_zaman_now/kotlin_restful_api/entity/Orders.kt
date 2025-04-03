@@ -27,7 +27,7 @@ class Orders(
     val id_order: Long? = null,
 
     @Column(name = "icon_order")
-    var iconorder: String,
+    var iconorder: String? = null,
 
     @Column(name = "kategori1")
     var kategori1: String? = null,
