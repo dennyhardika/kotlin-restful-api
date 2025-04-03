@@ -12,11 +12,9 @@ data class CreateOrderRequest(
     @field:NotBlank
     val iconorder: String,
 
-    @field:NotBlank
-    val kategori1: String,
+    val kategori1: String? = null,
 
-    @field:NotBlank
-    val produk1a: String,
+    val produk1a: String? = null,
 
     val produk1b: String? = null,
 
@@ -47,9 +45,7 @@ data class CreateOrderRequest(
 
     val keterangan: String? = null,
 
-
     val foto_one: String? = null,
-
 
     val foto_two: String? = null,
 
