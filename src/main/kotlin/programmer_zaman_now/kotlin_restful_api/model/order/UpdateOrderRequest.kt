@@ -6,8 +6,7 @@ import java.util.Date
 
 data class UpdateOrderRequest (
 
-    @field:NotBlank
-    val iconorder: String,
+    val iconorder: String? = null,
 
     val kategori1: String? = null,
 
