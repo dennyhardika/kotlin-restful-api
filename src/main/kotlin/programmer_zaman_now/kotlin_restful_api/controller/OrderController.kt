@@ -47,11 +47,15 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         @RequestParam("statusbooking") statusbooking: String,
         @RequestParam("tipebooking") tipebooking: String,
         @RequestParam("namabooking") namabooking: String,
-        @RequestParam("uprofile") uprofileId: Long
+        @RequestParam("uprofile") uprofileStr: String // uprofile dikirim sebagai String
 //        @RequestParam("packetIds") packetIds: List<Long>?, // Tambahkan daftar ID paket
 //        @RequestParam("promoIds") promoIds: List<Long>? // Tambahkan daftar ID promo
 
     ): WebResponse<OrderResponse> {
+
+        // Mengonversi uprofileStr (String) menjadi Long
+        val uprofileId = uprofileStr.toLongOrNull()
+            ?: throw IllegalArgumentException("User profile ID tidak valid: $uprofileStr")
 
         val uprofile = uprofileRepository.findByIdOrNull(uprofileId)
             ?: throw IllegalArgumentException("User dengan ID $uprofileId tidak ditemukan")
