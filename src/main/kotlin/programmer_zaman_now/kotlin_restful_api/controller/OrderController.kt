@@ -52,6 +52,8 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
 //        @RequestParam("promoIds") promoIds: List<Long>? // Tambahkan daftar ID promo
 
     ): WebResponse<OrderResponse> {
+        // Log untuk memeriksa parameter yang diterima
+        println("Received iconorder: $iconorder")
 
         // Mengonversi uprofileStr (String) menjadi Long
         val uprofileId = uprofileStr.toLongOrNull()
