@@ -7,7 +7,7 @@ data class OrderResponse(
 
     val id_order: Long,
 
-    val iconorder: String,
+    val iconorder: String? = null,
 
     val kategori1: String? = null,
 
