@@ -30,10 +30,10 @@ class Orders(
     var iconorder: String,
 
     @Column(name = "kategori1")
-    var kategori1: String,
+    var kategori1: String? = null,
 
     @Column(name = "produk1a")
-    var produk1a: String,
+    var produk1a: String? = null,
 
     @Column(name = "produk1b")
     var produk1b: String? = null,
