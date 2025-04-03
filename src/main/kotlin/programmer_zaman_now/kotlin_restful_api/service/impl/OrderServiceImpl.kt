@@ -46,8 +46,8 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 
         val order = Orders(
             iconorder = createOrderRequest.iconorder,
-            kategori1 = createOrderRequest.kategori1,
-            produk1a = createOrderRequest.produk1a,
+            kategori1 = createOrderRequest.kategori1?: "",
+            produk1a = createOrderRequest.produk1a?: "",
             produk1b = createOrderRequest.produk1b ?: "",
             produk1c = createOrderRequest.produk1c ?: "",
             produk1d = createOrderRequest.produk1d ?: "",
@@ -103,8 +103,8 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             statusbooking = updateOrderRequest.statusbooking
             tipebooking = updateOrderRequest.tipebooking
             namabooking = updateOrderRequest.namabooking
-            kategori1 = updateOrderRequest.kategori1
-            produk1a = updateOrderRequest.produk1a
+            kategori1 = updateOrderRequest.kategori1 ?: ""
+            produk1a = updateOrderRequest.produk1a ?: ""
             produk1b = updateOrderRequest.produk1b ?: ""
             produk1c = updateOrderRequest.produk1c ?: ""
             produk1d = updateOrderRequest.produk1d ?: ""
@@ -167,8 +167,8 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             iconorder = orders.iconorder!!,
 //            packetIds = orders.packets.map { it.idpaket!! }, // Jika kosong, akan jadi `emptyList()`
 //            promoIds = orders.promotions.map { it.idpromo!! }, // Jika kosong, akan jadi `emptyList()`
-            kategori1 = orders.kategori1,
-            produk1a = orders.produk1a,
+            kategori1 = orders.kategori1 ?: "",
+            produk1a = orders.produk1a ?: "",
             produk1b = orders.produk1b ?: "",
             produk1c = orders.produk1c ?: "",
             produk1d = orders.produk1d ?: "",
