@@ -9,8 +9,7 @@ import java.util.Date
 
 data class CreateOrderRequest(
 
-    @field:NotBlank
-    val iconorder: String,
+    val iconorder: String? = null,
 
     val kategori1: String? = null,
 
