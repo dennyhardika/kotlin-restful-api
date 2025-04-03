@@ -1,193 +1,224 @@
-package programmer_zaman_now.kotlin_restful_api.service.impl
+package programmer_zaman_now.kotlin_restful_api.controller
 
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
-import programmer_zaman_now.kotlin_restful_api.entity.Orders
-import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
-import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
+import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.order.CreateOrderRequest
 import programmer_zaman_now.kotlin_restful_api.model.order.ListOrderRequest
 import programmer_zaman_now.kotlin_restful_api.model.order.OrderResponse
 import programmer_zaman_now.kotlin_restful_api.model.order.UpdateOrderRequest
-import programmer_zaman_now.kotlin_restful_api.repository.OrderRepository
-import programmer_zaman_now.kotlin_restful_api.repository.PacketRepository
-import programmer_zaman_now.kotlin_restful_api.repository.PromoRepository
+import programmer_zaman_now.kotlin_restful_api.repository.ProductRepository
 import programmer_zaman_now.kotlin_restful_api.repository.UprofileRepository
 import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 import programmer_zaman_now.kotlin_restful_api.service.OrderService
-import java.util.Date
-import java.util.stream.Collectors
 
-@Service
-class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileRepository: UprofileRepository, val fileStorageService: FileStorageService, val packetRepository: PacketRepository, val promoRepository: PromoRepository): OrderService {
-    override fun create(createOrderRequest: CreateOrderRequest, fotoOne: MultipartFile?, fotoTwo: MultipartFile?, uprofile: Uprofile): OrderResponse { //, products: List<Product>, uprofile: Uprofile
-        println("Create Order Request: $createOrderRequest")  // Tambahkan log
+@RestController
+class OrderController(val orderService: OrderService, val productRepository: ProductRepository, val uprofileRepository: UprofileRepository, val fileStorageService: FileStorageService) {
 
-        // Ambil paket dan promo, jika kosong gunakan list kosong
-//        val packetss = if (!createOrderRequest.packetIds.isNullOrEmpty()) packetRepository.findAllById(createOrderRequest.packetIds) else emptyList()
-//        val promoss = if (!createOrderRequest.promoIds.isNullOrEmpty()) promoRepository.findAllById(createOrderRequest.promoIds) else emptyList()
+    @Throws(IllegalArgumentException::class)
+    @PostMapping(
+        value = ["/api/orders"],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"] // Ubah menjadi multipart
+    )
+    fun createOrder(
+        @RequestParam("iconorder") iconorder: String?,
+        @RequestParam("kategori1") kategori1: String?,
+        @RequestParam("produk1a") produk1a: String?,
+        @RequestParam("produk1b") produk1b: String?,
+        @RequestParam("produk1c") produk1c: String?,
+        @RequestParam("produk1d") produk1d: String?,
+        @RequestParam("kategori2") kategori2: String?,
+        @RequestParam("produk2a") produk2a: String?,
+        @RequestParam("produk2b") produk2b: String?,
+        @RequestParam("produk2c") produk2c: String?,
+        @RequestParam("produk2d") produk2d: String?,
+        @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
+        @RequestParam("keterangan") keterangan: String?,
+        @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
+        @RequestParam("foto_two", required = false) foto_two: MultipartFile?, // Ubah ke opsional
+        @RequestParam("statusbooking") statusbooking: String,
+        @RequestParam("tipebooking") tipebooking: String,
+        @RequestParam("namabooking") namabooking: String,
+        @RequestParam("uprofile") uprofileStr: String // uprofile dikirim sebagai String
+//        @RequestParam("packetIds") packetIds: List<Long>?, // Tambahkan daftar ID paket
+//        @RequestParam("promoIds") promoIds: List<Long>? // Tambahkan daftar ID promo
 
-//        val fotoOnePath = fotoOne?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
-//        val fotoTwoPath = fotoTwo?.takeIf { !it.isEmpty }?.let { fileStorageService.saveFile(it) }
+    ): WebResponse<OrderResponse> {
+        // Log untuk memeriksa parameter yang diterima
+        println("Received iconorder: $iconorder")
 
-        val fotoOnePath = fotoOne?.let { fileStorageService.saveFile(it) } ?: ""
-        val fotoTwoPath = fotoTwo?.let { fileStorageService.saveFile(it) } ?: ""
+        // Mengonversi uprofileStr (String) menjadi Long
+        val uprofileId = uprofileStr.toLongOrNull()
+            ?: throw IllegalArgumentException("User profile ID tidak valid: $uprofileStr")
 
-        if (createOrderRequest.uprofile == null) {
-            throw IllegalArgumentException("User profile tidak boleh null")
+        val uprofile = uprofileRepository.findByIdOrNull(uprofileId)
+            ?: throw IllegalArgumentException("User dengan ID $uprofileId tidak ditemukan")
+
+        val request = CreateOrderRequest(
+            iconorder = iconorder ?: "",
+            kategori1 = kategori1 ?: "",
+            produk1a =  produk1a ?: "",
+            produk1b = produk1b ?: "",
+            produk1c = produk1c ?: "",
+            produk1d = produk1d ?: "",
+            kategori2 = kategori2 ?: "",
+            produk2a =  produk2a ?: "",
+            produk2b = produk2b ?: "",
+            produk2c = produk2c ?: "",
+            produk2d = produk2d ?: "",
+            tanggalkedatangan = tanggalkedatangan,
+            keterangan = keterangan ?: "",  // Default kosong jika null
+            foto_one = "",
+            foto_two = "",
+            statusbooking = statusbooking,
+            tipebooking = tipebooking,
+            namabooking = namabooking,
+            uprofile = uprofile.iduprofile!!
+//            packetIds = packetIds ?: emptyList(), // Default kosong jika null
+//            promoIds = promoIds ?: emptyList() // Default kosong jika null
+        )
+
+        val orderResponse = orderService.create(request, foto_one, foto_two, uprofile) // , products, uprofile
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orderResponse
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/orders/{idOrder}"],
+        produces = ["application/json"]
+    )
+    fun getOrder(@PathVariable("idOrder") id: Long): WebResponse<OrderResponse> {
+        val orderResponse = orderService.get(id)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orderResponse
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/orders/idu/{iduprofile}"]
+    )
+    fun getOrdersByCustomerId(@PathVariable iduprofile: Long): WebResponse<List<OrderResponse>> {
+        val orders = orderService.getOrdersByCustomerId(iduprofile)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orders
+        )
+    }
+
+    @PutMapping(
+        value = ["/api/orders/{idOrder}"],
+        produces = ["application/json"],
+        consumes = ["multipart/form-data"]
+    )
+    fun updateOrder(
+        @PathVariable("idOrder") id: Long,
+        @RequestParam("iconorder") iconorder: String?,
+        @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
+        @RequestParam("keterangan") keterangan: String?,
+        @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
+        @RequestParam("foto_two", required = false) foto_two: MultipartFile?, // Ubah ke opsional
+        @RequestParam("statusbooking") statusbooking: String,
+        @RequestParam("tipebooking") tipebooking: String,
+        @RequestParam("namabooking") namabooking: String,
+        @RequestParam("kategori1") kategori1: String?,
+        @RequestParam("produk1a") produk1a: String?,
+        @RequestParam("produk1b") produk1b: String?,
+        @RequestParam("produk1c") produk1c: String?,
+        @RequestParam("produk1d") produk1d: String?,
+        @RequestParam("kategori2") kategori2: String?,
+        @RequestParam("produk2a") produk2a: String?,
+        @RequestParam("produk2b") produk2b: String?,
+        @RequestParam("produk2c") produk2c: String?,
+        @RequestParam("produk2d") produk2d: String?
+//        @RequestParam("packetIds") packetIds: List<Long>?, // Tambahkan daftar ID paket
+//        @RequestParam("promoIds") promoIds: List<Long>?
+    ): WebResponse<OrderResponse> {
+        val existingOrder = orderService.get(id)
+
+        // **Hapus file lama sebelum menyimpan yang baru**
+        val fotoOnePath = when {
+            foto_one != null -> fileStorageService.saveFile(foto_one)
+            foto_one == null && existingOrder.foto_one != null -> null // Hapus foto jika dikirim null
+            else -> existingOrder.foto_one
         }
 
-        // **Ambil `namapromo` dari promo pertama jika ada, jika tidak gunakan default "Regular"**
-        // 🚀 Ambil `namapromo` atau `namapacket` jika ada, prioritas promo lebih dulu
-//        val tipeBookingValue = promoss.firstOrNull()?.namapromo ?: packetss.firstOrNull()?.namapaket ?: "Regular"
+        val fotoTwoPath = when {
+            foto_two != null -> fileStorageService.saveFile(foto_two)
+            foto_two == null && existingOrder.foto_two != null -> null
+            else -> existingOrder.foto_two
+        }
 
-
-        val order = Orders(
-            iconorder = createOrderRequest.iconorder,
-            kategori1 = createOrderRequest.kategori1?: "",
-            produk1a = createOrderRequest.produk1a?: "",
-            produk1b = createOrderRequest.produk1b ?: "",
-            produk1c = createOrderRequest.produk1c ?: "",
-            produk1d = createOrderRequest.produk1d ?: "",
-            kategori2 = createOrderRequest.kategori2 ?: "",
-            produk2a = createOrderRequest.produk2a ?: "",
-            produk2b = createOrderRequest.produk2b ?: "",
-            produk2c = createOrderRequest.produk2c ?: "",
-            produk2d = createOrderRequest.produk2d ?: "",
-            tanggalkedatangan = createOrderRequest.tanggalkedatangan,
-            keterangan = createOrderRequest.keterangan ?: "",
+        val request = UpdateOrderRequest(
+            iconorder = iconorder ?: "",
+            tanggalkedatangan = tanggalkedatangan,
+            keterangan = keterangan ?: "",
             foto_one = fotoOnePath,
             foto_two = fotoTwoPath,
-            statusbooking = createOrderRequest.statusbooking,
-            tipebooking = createOrderRequest.tipebooking,
-            namabooking = createOrderRequest.namabooking,
-            uprofiles = uprofile,
-            createdAt = Date(),
-            updatedAt = null,
-//            packets = packetss.toMutableList(),
-//            promotions = promoss.toMutableList()
+            statusbooking = statusbooking,
+            tipebooking = tipebooking,
+            namabooking = namabooking,
+            kategori1 = kategori1 ?: "",
+            produk1a =  produk1a ?: "",
+            produk1b = produk1b ?: "",
+            produk1c = produk1c ?: "",
+            produk1d = produk1d ?: "",
+            kategori2 = kategori2 ?: "",
+            produk2a =  produk1a ?: "",
+            produk2b = produk2b ?: "",
+            produk2c = produk2c ?: "",
+            produk2d = produk2d ?: ""
+//            packetIds = packetIds ?: emptyList(), // Default kosong jika null
+//            promoIds = promoIds ?: emptyList() // Default kosong jika null
         )
-        orderRepository.save(order)
 
-        return convertOrderToOrderResponse(order)
-    }
-
-    override fun get(id: Long): OrderResponse {
-        val order = findOrderByOrThrowNotFound(id)
-        return convertOrderToOrderResponse(order)
-    }
-
-    override fun getOrdersByCustomerId(iduprofile: Long): List<OrderResponse> {
-        val orders = orderRepository.findByUprofiles_Iduprofile(iduprofile)
-        return orders.map { order -> convertOrderToOrderResponse(order) }
-    }
-
-    override fun update(id: Long, updateOrderRequest: UpdateOrderRequest, fotoOne: MultipartFile?, fotoTwo: MultipartFile?): OrderResponse {
-        val order = findOrderByOrThrowNotFound(id)
-
-        // Ambil paket dan promo, jika kosong biarkan tetap list kosong
-//        val packetss = if (!updateOrderRequest.packetIds.isNullOrEmpty()) packetRepository.findAllById(updateOrderRequest.packetIds) else emptyList()
-//        val promoss = if (!updateOrderRequest.promoIds.isNullOrEmpty()) promoRepository.findAllById(updateOrderRequest.promoIds) else emptyList()
-
-        // 🚀 Ambil `namapromo` atau `namapacket` jika ada, prioritas promo lebih dulu
-//        val tipeBookingValue = promoss.firstOrNull()?.namapromo ?: packetss.firstOrNull()?.namapaket ?: "Regular"
-
-
-        order.apply {
-            iconorder = updateOrderRequest.iconorder
-            updatedAt = Date()
-            tanggalkedatangan = updateOrderRequest.tanggalkedatangan
-            keterangan = updateOrderRequest.keterangan ?: ""
-            statusbooking = updateOrderRequest.statusbooking
-            tipebooking = updateOrderRequest.tipebooking
-            namabooking = updateOrderRequest.namabooking
-            kategori1 = updateOrderRequest.kategori1 ?: ""
-            produk1a = updateOrderRequest.produk1a ?: ""
-            produk1b = updateOrderRequest.produk1b ?: ""
-            produk1c = updateOrderRequest.produk1c ?: ""
-            produk1d = updateOrderRequest.produk1d ?: ""
-            kategori2 = updateOrderRequest.kategori2 ?: ""
-            produk2a = updateOrderRequest.produk2a ?: ""
-            produk2b = updateOrderRequest.produk2b ?: ""
-            produk2c = updateOrderRequest.produk2c ?: ""
-            produk2d = updateOrderRequest.produk2d ?: ""
-
-            // Update foto jika diberikan, jika tidak biarkan tetap
-            if (fotoOne != null) {
-                foto_one?.let { fileStorageService.deleteFile(it) }
-                foto_one = fileStorageService.saveFile(fotoOne)
-            } else if (updateOrderRequest.foto_one == null) {
-                foto_one = null
-            }
-
-            if (fotoTwo != null) {
-                foto_two?.let { fileStorageService.deleteFile(it) }
-                foto_two = fileStorageService.saveFile(fotoTwo)
-            } else if (updateOrderRequest.foto_two == null) {
-                foto_two = null
-            }
-
-            // Update daftar paket & promo
-//            packets.clear()
-//            packets.addAll(packetss)
-//            promotions.clear()
-//            promotions.addAll(promoss)
-        }
-        orderRepository.save(order)
-
-        return convertOrderToOrderResponse(order)
-    }
-
-    override fun delete(id: Long) {
-        val order = findOrderByOrThrowNotFound(id)
-        orderRepository.delete(order)
-    }
-
-    override fun list(listOrderRequest: ListOrderRequest): List<OrderResponse> {
-        val page = orderRepository.findAll(PageRequest.of(listOrderRequest.page, listOrderRequest.size))
-        val orders: MutableList<Orders>? = page.get().collect(Collectors.toList())
-
-        return orders!!.map { convertOrderToOrderResponse(it) }
-    }
-
-    private fun findOrderByOrThrowNotFound(id: Long): Orders {
-        val order = orderRepository.findByIdOrNull(id)
-        if (order == null){
-            throw NotFoundExpection()
-        }else {
-            return order;
-        }
-    }
-
-    private fun convertOrderToOrderResponse(orders: Orders): OrderResponse {
-        return OrderResponse(
-            id_order = orders.id_order!!,
-            iconorder = orders.iconorder!!,
-//            packetIds = orders.packets.map { it.idpaket!! }, // Jika kosong, akan jadi `emptyList()`
-//            promoIds = orders.promotions.map { it.idpromo!! }, // Jika kosong, akan jadi `emptyList()`
-            kategori1 = orders.kategori1 ?: "",
-            produk1a = orders.produk1a ?: "",
-            produk1b = orders.produk1b ?: "",
-            produk1c = orders.produk1c ?: "",
-            produk1d = orders.produk1d ?: "",
-            kategori2 = orders.kategori2 ?: "",
-            produk2a = orders.produk2a ?: "",
-            produk2b = orders.produk2b ?: "",
-            produk2c = orders.produk2c ?: "",
-            produk2d = orders.produk2d ?: "",
-            tanggalkedatangan = orders.tanggalkedatangan!!,
-            keterangan = orders.keterangan ?: "",
-            foto_one = orders.foto_one ?: "",
-            foto_two = orders.foto_two ?: "",
-            statusbooking = orders.statusbooking,
-            tipebooking = orders.tipebooking,
-            namabooking = orders.namabooking,
-            uprofile = orders.uprofiles?.iduprofile ?: throw IllegalStateException("User is null in Uprofile"),
-            createdAt = orders.createdAt,
-            updatedAt = orders.updatedAt,
+        val orderResponse = orderService.update(id, request, foto_one, foto_two)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orderResponse
         )
     }
 
+    @DeleteMapping(
+        value = ["/api/orders/{idOrder}"],
+        produces = ["application/json"]
+    )
+    fun deleteOrder(@PathVariable("idOrder") id: Long): WebResponse<String>{
+        val hapus =  orderService.delete(id).toString()
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = hapus
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/orders"],
+        produces = ["application/json"]
+    )
+    fun listOrders(@RequestParam(value = "size", defaultValue = "10") size:Int,
+                      @RequestParam(value = "page", defaultValue = "0")page:Int): WebResponse<List<OrderResponse>> {
+        val request = ListOrderRequest(page = page, size = size)
+        val responses = orderService.list(request)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = responses
+        )
+
+    }
 }
