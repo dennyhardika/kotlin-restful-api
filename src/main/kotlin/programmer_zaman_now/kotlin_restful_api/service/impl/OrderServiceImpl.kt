@@ -29,7 +29,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         consumes = ["multipart/form-data"] // Ubah menjadi multipart
     )
     fun createOrder(
-        @RequestParam("iconorder") iconorder: String,
+        @RequestParam("iconorder") iconorder: String?,
         @RequestParam("kategori1") kategori1: String?,
         @RequestParam("produk1a") produk1a: String?,
         @RequestParam("produk1b") produk1b: String?,
@@ -63,7 +63,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
             ?: throw IllegalArgumentException("User dengan ID $uprofileId tidak ditemukan")
 
         val request = CreateOrderRequest(
-            iconorder = iconorder,
+            iconorder = iconorder ?: "",
             kategori1 = kategori1 ?: "",
             produk1a =  produk1a ?: "",
             produk1b = produk1b ?: "",
@@ -126,7 +126,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
     )
     fun updateOrder(
         @PathVariable("idOrder") id: Long,
-        @RequestParam("iconorder") iconorder: String,
+        @RequestParam("iconorder") iconorder: String?,
         @RequestParam("tanggalkedatangan") tanggalkedatangan: String,
         @RequestParam("keterangan") keterangan: String?,
         @RequestParam("foto_one", required = false) foto_one: MultipartFile?, // Ubah ke opsional
@@ -163,7 +163,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         }
 
         val request = UpdateOrderRequest(
-            iconorder = iconorder,
+            iconorder = iconorder ?: "",
             tanggalkedatangan = tanggalkedatangan,
             keterangan = keterangan ?: "",
             foto_one = fotoOnePath,
