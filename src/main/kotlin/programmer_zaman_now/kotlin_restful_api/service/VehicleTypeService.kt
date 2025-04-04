@@ -1,114 +1,31 @@
-package programmer_zaman_now.kotlin_restful_api.service.impl
+package programmer_zaman_now.kotlin_restful_api.service
 
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.repository.findByIdOrNull
-import org.springframework.stereotype.Service
-import programmer_zaman_now.kotlin_restful_api.entity.Product
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Brand
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
-import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
-import programmer_zaman_now.kotlin_restful_api.error.NotFoundException
-import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
+import programmer_zaman_now.kotlin_restful_api.model.kendaraan.brand.BrandResponse
+import programmer_zaman_now.kotlin_restful_api.model.kendaraan.brand.CreateBrandRequest
+import programmer_zaman_now.kotlin_restful_api.model.kendaraan.brand.ListBrandRequest
+import programmer_zaman_now.kotlin_restful_api.model.kendaraan.brand.UpdateBrandRequest
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.CreateTypeRequest
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.ListTypeRequest
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.TypeResponse
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.UpdateTypeRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
-import programmer_zaman_now.kotlin_restful_api.repository.BrandRepository
-import programmer_zaman_now.kotlin_restful_api.repository.GroupRepository
-import programmer_zaman_now.kotlin_restful_api.repository.TypeRepository
-import programmer_zaman_now.kotlin_restful_api.service.VehicleTypeService
-import java.util.Date
-import java.util.stream.Collectors
 
-@Service
-class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandRepository: BrandRepository, val groupRepository: GroupRepository): VehicleTypeService{
-    override fun create(createTypeRequest: CreateTypeRequest, brand: Brand, group: Group): TypeResponse {
-        val vehicletype = VehicleType(
-            tipekendaraan = createTypeRequest.tipekendaraan!!,
-            createdAt = Date(),
-            updatedAt = null,
-            brands = brand,
-            group = group
-        )
-        typeRepository.save(vehicletype)
+interface VehicleTypeService {
 
-        return convertVehicleTypeToVehicleTypeResponse(vehicletype)
-    }
+    fun create(createTypeRequest: CreateTypeRequest, brand: Brand, group: Group): TypeResponse
 
-    override fun get(id: Long): TypeResponse {
-        val vehicletype = findVehicleTypeByOrThrowNotFound(id)
-        return convertVehicleTypeToVehicleTypeResponse(vehicletype)
-    }
+    fun get(id: Long): TypeResponse
 
-    override fun gettipeknd(tipekendaraan: String): TypeResponse {
-        println("Mencari kategori dengan nama: $tipekendaraan") // Debugging
-        val product = findVehicleTypeNameByOrThrowNotFound(tipekendaraan)
-        println("Kategori ditemukan: ${product.tipekendaraan}") // Debugging
-        return convertVehicleTypeToVehicleTypeResponse(product)
-    }
+    fun gettipeknd(tipekendaraan: String): TypeResponse
 
-    // Metode baru untuk mendapatkan produk berdasarkan kategori
-    override fun getVehicleTypesByBrand(brandId: Long): List<TypeResponse> {
-        // Ambil semua produk berdasarkan categoryId
-        val types = typeRepository.findByBrands_Id(brandId)
+    fun getVehicleTypesByBrand(brandId: Long): List<TypeResponse>
 
-        // Mengonversi daftar produk ke daftar response untuk API
-        return types.map { convertVehicleTypeToVehicleTypeResponse(it) }
-    }
+    fun update(id: Long, updateTypeRequest: UpdateTypeRequest): TypeResponse
 
-    override fun update(id: Long, updateTypeRequest: UpdateTypeRequest): TypeResponse {
-        val vehicletype = findVehicleTypeByOrThrowNotFound(id)
+    fun delete(id: Long)
 
-        // Ambil kategori jika categoryId diberikan
-        val brand = updateTypeRequest.brand?.let {
-            brandRepository.findById(it).orElseThrow { NotFoundException("Brand not found") }
-        }
-        var group = updateTypeRequest.idgrup?.let {
-            groupRepository.findById(it).orElseThrow { NotFoundException("Group not found") }
-        }
+    fun list(listTypeRequest: ListTypeRequest): List<TypeResponse>
 
-        vehicletype.apply {
-            tipekendaraan = updateTypeRequest.tipekendaraan ?: tipekendaraan
-            updatedAt = Date()
-            if (brand != null) brands = brand
-            if (group != null) group = group
-        }
-
-        typeRepository.save(vehicletype)
-
-        return convertVehicleTypeToVehicleTypeResponse(vehicletype)
-    }
-
-    override fun delete(id: Long) {
-        val vehicletype = findVehicleTypeByOrThrowNotFound(id)
-        typeRepository.delete(vehicletype)
-    }
-
-    override fun list(listTypeRequest: ListTypeRequest): List<TypeResponse> {
-        val page = typeRepository.findAll(PageRequest.of(listTypeRequest.page, listTypeRequest.size))
-        val types: List<VehicleType> = page.get().collect(Collectors.toList())
-
-        return types.map { convertVehicleTypeToVehicleTypeResponse(it) }
-    }
-
-    private fun findVehicleTypeByOrThrowNotFound(id: Long): VehicleType {
-        return typeRepository.findByIdOrNull(id) ?: throw NotFoundException("Vehicle Type with id $id not found")
-    }
-
-    private fun findVehicleTypeNameByOrThrowNotFound(tipekendaraan: String): VehicleType {
-        return typeRepository.findByTipeKendaraan(tipekendaraan)
-            ?: throw NotFoundExpection()
-    }
-
-    private fun convertVehicleTypeToVehicleTypeResponse(vehicleType: VehicleType): TypeResponse {
-        return TypeResponse(
-            idtipe =  vehicleType.idtipe!!,
-            tipekendaraan = vehicleType.tipekendaraan,
-            createdAt = vehicleType.createdAt,
-            updatedAt = vehicleType.updatedAt,
-            brand = vehicleType.brands?.idmerek ?: throw IllegalStateException(" Brand is null in Vehicle Type"),
-            group = vehicleType.group?.idgrup ?: throw IllegalStateException(" Group is null in Vehicle Type")
-        )
-    }
 }
