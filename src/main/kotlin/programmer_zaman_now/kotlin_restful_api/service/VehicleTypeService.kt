@@ -10,6 +10,7 @@ import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.CreateTypeRe
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.ListTypeRequest
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.TypeResponse
 import programmer_zaman_now.kotlin_restful_api.model.kendaraan.type.UpdateTypeRequest
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 
 interface VehicleTypeService {
 
@@ -18,6 +19,8 @@ interface VehicleTypeService {
     fun get(id: Long): TypeResponse
 
     fun gettipeknd(tipekendaraan: String): TypeResponse
+
+    fun getVehicleTypesByBrand(brandId: Long): List<TypeResponse>
 
     fun update(id: Long, updateTypeRequest: UpdateTypeRequest): TypeResponse
 
