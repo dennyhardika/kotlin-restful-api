@@ -1,8 +1,11 @@
 package programmer_zaman_now.kotlin_restful_api.service
 
+import net.coobird.thumbnailator.Thumbnails
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -19,16 +22,22 @@ class FileStorageService {
     }
 
     fun saveFile(file: MultipartFile): String {
-        val fileName = System.currentTimeMillis().toString() + "_" + file.originalFilename
-        val filePath = uploadDir.resolve(fileName)
+        val fileName = "${System.currentTimeMillis()}_${file.originalFilename}"
+        val filePath = "$uploadDir$fileName"
+        val fileOutput = File(filePath)
 
-        println("📂 Menyimpan file: $fileName di lokasi: $filePath")
+        try {
+            // 🔥 Kompres gambar sebelum menyimpan
+            Thumbnails.of(file.inputStream)
+                .size(800, 800) // Ukuran maksimal, tetap menjaga aspek rasio
+                .outputQuality(0.7) // 70% kualitas untuk mengurangi ukuran file
+                .toOutputStream(FileOutputStream(fileOutput))
 
-        Files.copy(file.inputStream, filePath, StandardCopyOption.REPLACE_EXISTING)
+        } catch (e: IOException) {
+            throw RuntimeException("Gagal menyimpan file: ${e.message}")
+        }
 
-        println("✅ File berhasil disimpan!")
-
-        return fileName // hanya nama file
+        return fileName // Simpan hanya nama file di database
     }
 
     fun deleteFile(fileName: String?) {
