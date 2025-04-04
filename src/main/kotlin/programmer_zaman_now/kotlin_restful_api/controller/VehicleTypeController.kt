@@ -76,7 +76,7 @@ class VehicleTypeController (val vehicleTypeService: VehicleTypeService, val bra
 
     // Endpoint baru untuk mendapatkan type berdasarkan brand
     @GetMapping(
-        value = ["/api/products/brd/{idmerek}"],
+        value = ["/api/types/brd/{idmerek}"],
         produces = ["application/json"]
     )
     fun getTypesByBrand(@PathVariable ("idmerek") id: Long): ResponseEntity<List<TypeResponse>> {
