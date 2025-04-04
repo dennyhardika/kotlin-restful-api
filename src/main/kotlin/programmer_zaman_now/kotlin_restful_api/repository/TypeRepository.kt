@@ -13,6 +13,6 @@ interface TypeRepository: JpaRepository<VehicleType, Long> {
     fun findByTipeKendaraan(@Param("tipekendaraan") tipekendaraan: String): VehicleType?
 
     // Query untuk mencari produk berdasarkan ID Brand
-    fun findByBrands_Id(brandId: Long): List<VehicleType>
+    fun findByBrands_Idmerek(brandId: Long): List<VehicleType>
 
 }
