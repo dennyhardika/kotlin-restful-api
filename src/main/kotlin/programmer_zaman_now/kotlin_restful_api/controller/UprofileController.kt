@@ -23,23 +23,6 @@ import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 @RestController
 class UprofileController(val uprofileService: UprofileService, val userRepository: UserRepository, val fileStorageService: FileStorageService, val groupRepository: GroupRepository) {
 
-//    @PostMapping(
-//        value = ["/api/uprofiles"],
-//        produces = ["application/json"],
-//        consumes = ["application/json"]
-//    )
-//    fun createUprofile(@Valid @RequestBody body: CreateUprofileRequest): WebResponse<UprofileResponse> {
-//        val user = userRepository.findByIdOrNull(body.user)
-//            ?: throw IllegalArgumentException("User dengan ID ${body.user} tidak ditemukan")
-//
-//        val uprofileResponse = uprofileService.create(body, user)
-//        return WebResponse(
-//            code = 200,
-//            status = "OK",
-//            data = uprofileResponse
-//        )
-//    }
-
     @Throws(IllegalArgumentException::class)
     @PostMapping(
         value = ["/api/uprofiles"],
@@ -100,21 +83,7 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
             data = uprofileResponse
         )
     }
-//    @PutMapping(
-//        value = ["/api/uprofiles/{idUprofile}"],
-//        produces = ["application/json"],
-//        consumes = ["application/json"]
-//    )
-//    fun updateUprofile(@PathVariable("idUprofile") id: Long,
-//                      @RequestBody updateUprofileRequest: UpdateUprofileRequest
-//    ): WebResponse<UprofileResponse> {
-//        val uprofileResponse = uprofileService.update(id, updateUprofileRequest)
-//        return WebResponse(
-//            code = 200,
-//            status = "OK",
-//            data = uprofileResponse
-//        )
-//    }
+
 @PutMapping(
     value = ["/api/uprofiles/{idUprofile}"],
     produces = ["application/json"],
@@ -132,27 +101,6 @@ fun updateUprofile(
     @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile?
 ): WebResponse<UprofileResponse> {
 
-    val existingUprofile = uprofileService.get(id)
-
-    // **Hapus file lama sebelum menyimpan yang baru**
-    val fotoProfilPath = if (fotoprofil != null) {
-        existingUprofile.fotoprofil?.let { oldFile ->
-            if (oldFile.isNotEmpty()) {
-                fileStorageService.deleteFile(oldFile)
-            }
-        }
-        fileStorageService.saveFile(fotoprofil)
-    } else existingUprofile.fotoprofil
-
-    val fotoKendaraanPath = if (fotokendaraan != null) {
-        existingUprofile.fotokendaraan?.let { oldFile ->
-            if (oldFile.isNotEmpty()) {
-                fileStorageService.deleteFile(oldFile)
-            }
-        }
-        fileStorageService.saveFile(fotokendaraan)
-    } else existingUprofile.fotokendaraan
-
     val request = UpdateUprofileRequest(
         namalengkap = namalengkap,
         tipekendaraan = tipekendaraan,
@@ -160,8 +108,8 @@ fun updateUprofile(
         noplat = noplat,
         alamat = alamat,
         nohandphone = nohandphone,
-        fotoprofil = fotoProfilPath,
-        fotokendaraan = fotoKendaraanPath
+        fotoprofil = "", // Biarkan service yang handle upload
+        fotokendaraan = ""
     )
 
     val uprofileResponse = uprofileService.update(id, request, fotoprofil, fotokendaraan)
