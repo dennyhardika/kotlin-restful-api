@@ -2,6 +2,7 @@ package programmer_zaman_now.kotlin_restful_api.controller
 
 import jakarta.validation.Valid
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -71,6 +72,16 @@ class VehicleTypeController (val vehicleTypeService: VehicleTypeService, val bra
             status = "OK",
             data = vehicletypeResponse
         )
+    }
+
+    // Endpoint baru untuk mendapatkan type berdasarkan brand
+    @GetMapping(
+        value = ["/api/products/brd/{idBrand}"],
+        produces = ["application/json"]
+    )
+    fun getTypesByBrand(@PathVariable ("idBrand") id: Long): ResponseEntity<List<TypeResponse>> {
+        val vehicletypeResponse = vehicleTypeService.getVehicleTypesByBrand(id)
+        return ResponseEntity.ok(vehicletypeResponse)
     }
 
     @PutMapping(
