@@ -48,6 +48,15 @@ class VehicleTypeServiceImpl(val typeRepository: TypeRepository, val brandReposi
         return convertVehicleTypeToVehicleTypeResponse(product)
     }
 
+    // Metode baru untuk mendapatkan produk berdasarkan kategori
+    override fun getVehicleTypesByBrand(brandId: Long): List<TypeResponse> {
+        // Ambil semua produk berdasarkan categoryId
+        val types = typeRepository.findByCategories_Idbrand(brandId)
+
+        // Mengonversi daftar produk ke daftar response untuk API
+        return types.map { convertVehicleTypeToVehicleTypeResponse(it) }
+    }
+
     override fun update(id: Long, updateTypeRequest: UpdateTypeRequest): TypeResponse {
         val vehicletype = findVehicleTypeByOrThrowNotFound(id)
 
