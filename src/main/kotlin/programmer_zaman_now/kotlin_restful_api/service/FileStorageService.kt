@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption
 @Service
 class FileStorageService {
 
-    private val serverIp = "http://103.151.140.100:8080" // Ganti dengan IP server backend
+    private val serverIp = "http://192.168.1.100:8080" // Ganti dengan IP server backend
     private val uploadDir: Path = Paths.get("/home/uploads") // Direktori penyimpanan langsung di server
 
     init {
@@ -28,13 +28,11 @@ class FileStorageService {
 
         println("✅ File berhasil disimpan!")
 
-        // Kembalikan URL lengkap agar frontend bisa mengaksesnya
-        return "$serverIp/uploads/$fileName"
+        return fileName // hanya nama file
     }
 
-    fun deleteFile(fileUrl: String?) {
-        if (!fileUrl.isNullOrEmpty()) {
-            val fileName = fileUrl.substringAfterLast("/") // Ambil hanya nama file
+    fun deleteFile(fileName: String?) {
+        if (!fileName.isNullOrEmpty()) {
             val file = File(uploadDir.toFile(), fileName)
 
             if (file.exists()) {
@@ -48,4 +46,10 @@ class FileStorageService {
             }
         }
     }
+
+
+    fun generateFileUrl(fileName: String): String {
+        return "$serverIp/uploads/$fileName"
+    }
+
 }
