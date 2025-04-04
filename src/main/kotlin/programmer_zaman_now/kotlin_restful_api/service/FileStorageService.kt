@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption
 @Service
 class FileStorageService {
 
-    private val serverIp = "http://192.168.1.100:8080" // Ganti dengan IP server backend
+    private val serverIp = "http://103.151.140.100:8080" // Ganti dengan IP server backend
     private val uploadDira: Path = Paths.get("/home/uploads") // Direktori penyimpanan langsung di server
     private val uploadDir = "/home/uploads/" // Folder penyimpanan
 
