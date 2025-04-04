@@ -45,6 +45,8 @@ dependencies {
 
 	testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	implementation("net.coobird:thumbnailator:0.4.14")
 }
 
 kotlin {
