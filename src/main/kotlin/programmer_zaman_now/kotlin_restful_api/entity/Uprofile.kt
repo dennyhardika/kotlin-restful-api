@@ -62,7 +62,7 @@ class Uprofile (
 
     @ManyToOne
     @JoinColumn(name = "id_grup", nullable = false)
-    val group: Group,  // Banyak Uprofile bisa memiliki satu Group
+    var group: Group,  // Banyak Uprofile bisa memiliki satu Group
 
     @OneToMany(mappedBy = "uprofiles", fetch = FetchType.LAZY)
     val orders: List<Orders> = mutableListOf()
