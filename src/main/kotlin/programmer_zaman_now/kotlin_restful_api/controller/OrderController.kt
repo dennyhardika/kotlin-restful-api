@@ -147,27 +147,13 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
 //        @RequestParam("packetIds") packetIds: List<Long>?, // Tambahkan daftar ID paket
 //        @RequestParam("promoIds") promoIds: List<Long>?
     ): WebResponse<OrderResponse> {
-        val existingOrder = orderService.get(id)
-
-        // **Hapus file lama sebelum menyimpan yang baru**
-        val fotoOnePath = when {
-            foto_one != null -> fileStorageService.saveFile(foto_one)
-            foto_one == null && existingOrder.foto_one != null -> null // Hapus foto jika dikirim null
-            else -> existingOrder.foto_one
-        }
-
-        val fotoTwoPath = when {
-            foto_two != null -> fileStorageService.saveFile(foto_two)
-            foto_two == null && existingOrder.foto_two != null -> null
-            else -> existingOrder.foto_two
-        }
 
         val request = UpdateOrderRequest(
             iconorder = iconorder ?: "",
             tanggalkedatangan = tanggalkedatangan,
             keterangan = keterangan ?: "",
-            foto_one = fotoOnePath,
-            foto_two = fotoTwoPath,
+            foto_one = "",
+            foto_two = "",
             statusbooking = statusbooking,
             tipebooking = tipebooking,
             namabooking = namabooking,
