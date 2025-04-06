@@ -36,11 +36,17 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
         @RequestParam("noplat") noplat: String,
         @RequestParam("alamat") alamat: String,
         @RequestParam("nohandphone") nohandphone: String,
-        @RequestParam("user") userId: Long,
-        @RequestParam("group") id: Long,
+        @RequestParam("user") userStr: String,
+        @RequestParam("group") groupStr: String,
         @RequestParam("fotoprofil", required = false) fotoprofil: MultipartFile?, // Ubah ke opsional
         @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile? // Ubah ke opsional
     ): WebResponse<UprofileResponse> {
+
+        // Mengonversi uprofileStr (String) menjadi Long
+        val id = groupStr.toLongOrNull()
+            ?: throw IllegalArgumentException("User profile ID tidak valid: $groupStr")
+        val userId = userStr.toLongOrNull()
+            ?: throw IllegalArgumentException("User profile ID tidak valid: $userStr")
 
         val tipe = groupRepository.findByIdOrNull(id)
             ?: throw IllegalArgumentException("Type dengan ID $id tidak ditemukan")
@@ -98,8 +104,15 @@ fun updateUprofile(
     @RequestParam("alamat") alamat: String,
     @RequestParam("nohandphone") nohandphone: String,
     @RequestParam("fotoprofil", required = false) fotoprofil: MultipartFile?,
-    @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile?
+    @RequestParam("fotokendaraan", required = false) fotokendaraan: MultipartFile?,
+    @RequestParam("group") groupStr: String
 ): WebResponse<UprofileResponse> {
+    // Mengonversi uprofileStr (String) menjadi Long
+    val id = groupStr.toLongOrNull()
+        ?: throw IllegalArgumentException("User profile ID tidak valid: $groupStr")
+
+    val tipe = groupRepository.findByIdOrNull(id)
+        ?: throw IllegalArgumentException("Type dengan ID $id tidak ditemukan")
 
     val request = UpdateUprofileRequest(
         namalengkap = namalengkap,
@@ -109,7 +122,9 @@ fun updateUprofile(
         alamat = alamat,
         nohandphone = nohandphone,
         fotoprofil = "", // Biarkan service yang handle upload
-        fotokendaraan = ""
+        fotokendaraan = "",
+        group = tipe.idgrup!!
+
     )
 
     val uprofileResponse = uprofileService.update(id, request, fotoprofil, fotokendaraan)
