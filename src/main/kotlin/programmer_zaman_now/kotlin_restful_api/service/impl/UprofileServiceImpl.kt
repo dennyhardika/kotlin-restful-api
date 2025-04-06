@@ -3,8 +3,10 @@ package programmer_zaman_now.kotlin_restful_api.service.impl
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.server.ResponseStatusException
 import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
@@ -61,6 +63,9 @@ class UprofileServiceImpl(
     ): UprofileResponse {
         val uprofile = findUprofileByOrThrowNotFound(id)
 
+        // Ambil group berdasarkan idGrup dari request
+        val grp = groupRepository.findById(updateUprofileRequest.group!!)
+            .orElseThrow { throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Group tidak ditemukan") }
         uprofile.apply {
             namalengkap = updateUprofileRequest.namalengkap!!
             tipekendaraan = updateUprofileRequest.tipekendaraan!!
@@ -69,6 +74,7 @@ class UprofileServiceImpl(
             alamat = updateUprofileRequest.alamat ?: ""
             nohandphone = updateUprofileRequest.nohandphone!!
             updatedAt = Date()
+            this.group = grp
 
             // Hapus & ganti foto profil jika ada
             if (fotoProfil != null) {
