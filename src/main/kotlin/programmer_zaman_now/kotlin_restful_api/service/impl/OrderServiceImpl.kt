@@ -114,19 +114,16 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
             produk2c = updateOrderRequest.produk2c ?: ""
             produk2d = updateOrderRequest.produk2d ?: ""
 
-            // Update foto jika diberikan, jika tidak biarkan tetap
+            // Hapus & ganti foto profil jika ada
             if (fotoOne != null) {
-                foto_one?.let { fileStorageService.deleteFile(it) }
+                if (!foto_one.isNullOrEmpty()) fileStorageService.deleteFile(foto_one!!)
                 foto_one = fileStorageService.saveFile(fotoOne)
-            } else if (updateOrderRequest.foto_one == null) {
-                foto_one = null
             }
 
+            // Hapus & ganti foto kendaraan jika ada
             if (fotoTwo != null) {
-                foto_two?.let { fileStorageService.deleteFile(it) }
+                if (!foto_two.isNullOrEmpty()) fileStorageService.deleteFile(foto_two!!)
                 foto_two = fileStorageService.saveFile(fotoTwo)
-            } else if (updateOrderRequest.foto_two == null) {
-                foto_two = null
             }
 
             // Update daftar paket & promo
