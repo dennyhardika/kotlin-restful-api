@@ -1,6 +1,8 @@
 package programmer_zaman_now.kotlin_restful_api.model.uprofile
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.NotNull
 
 data class UpdateUprofileRequest(
 
@@ -26,6 +28,10 @@ data class UpdateUprofileRequest(
     val fotoprofil: String? = null,
 
     @field:NotBlank
-    val fotokendaraan: String? = null
+    val fotokendaraan: String? = null,
+
+    @JsonProperty("group")
+    @field:NotNull
+    val group: Long?
 
 )
