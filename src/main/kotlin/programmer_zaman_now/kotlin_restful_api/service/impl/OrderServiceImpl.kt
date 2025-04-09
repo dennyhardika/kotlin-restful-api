@@ -9,6 +9,7 @@ import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
 import programmer_zaman_now.kotlin_restful_api.model.order.CreateOrderRequest
 import programmer_zaman_now.kotlin_restful_api.model.order.ListOrderRequest
+import programmer_zaman_now.kotlin_restful_api.model.order.ListOrderRequestCtg
 import programmer_zaman_now.kotlin_restful_api.model.order.OrderResponse
 import programmer_zaman_now.kotlin_restful_api.model.order.UpdateOrderRequest
 import programmer_zaman_now.kotlin_restful_api.repository.OrderRepository
@@ -147,6 +148,29 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
         val orders: MutableList<Orders>? = page.get().collect(Collectors.toList())
 
         return orders!!.map { convertOrderToOrderResponse(it) }
+    }
+
+    override fun getOrdersByIconorderAndUserId(request: ListOrderRequestCtg): List<OrderResponse> {
+        val pageable = PageRequest.of(request.page, request.size)
+
+        val ordersPage = when {
+            request.iconorder != null && request.uprofileId != null ->
+                orderRepository.findByIconorderAndUserIdWithPagination(
+                    request.iconorder, request.uprofileId, pageable
+                )
+            request.iconorder != null ->
+                orderRepository.findByIconorderWithPagination(
+                    request.iconorder, pageable
+                )
+            request.uprofileId != null ->
+                orderRepository.findByUserIdWithPagination(
+                    request.uprofileId, pageable
+                )
+            else ->
+                orderRepository.findAll(pageable)
+        }
+
+        return ordersPage.content.map { convertOrderToOrderResponse(it) } // pastikan toOrderResponse() ada
     }
 
     private fun findOrderByOrThrowNotFound(id: Long): Orders {
