@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
 import programmer_zaman_now.kotlin_restful_api.model.order.CreateOrderRequest
 import programmer_zaman_now.kotlin_restful_api.model.order.ListOrderRequest
+import programmer_zaman_now.kotlin_restful_api.model.order.ListOrderRequestCtg
 import programmer_zaman_now.kotlin_restful_api.model.order.OrderResponse
 import programmer_zaman_now.kotlin_restful_api.model.order.UpdateOrderRequest
 import programmer_zaman_now.kotlin_restful_api.repository.ProductRepository
@@ -207,4 +208,32 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
         )
 
     }
+
+    @GetMapping(
+        value = ["/api/orders"],
+        produces = ["application/json"]
+    )
+    fun listOrders(
+        @RequestParam(value = "size", defaultValue = "10") size: Int,
+        @RequestParam(value = "page", defaultValue = "0") page: Int,
+        @RequestParam(value = "iconorder", required = false) iconorder: String?,
+        @RequestParam(value = "uprofileId", required = false) uprofileId: Long?
+    ): WebResponse<List<OrderResponse>> {
+
+        val request = ListOrderRequestCtg(
+            page = page,
+            size = size,
+            iconorder = iconorder,
+            uprofileId = uprofileId
+        )
+
+        val responses = orderService.getOrdersByIconorderAndUserId(request)
+
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = responses
+        )
+    }
+
 }
