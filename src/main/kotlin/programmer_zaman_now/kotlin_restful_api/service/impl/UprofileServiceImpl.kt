@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.server.ResponseStatusException
+import programmer_zaman_now.kotlin_restful_api.entity.Product
 import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.*
 import programmer_zaman_now.kotlin_restful_api.repository.*
 import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
@@ -110,13 +112,39 @@ class UprofileServiceImpl(
         return convertUprofileToUprofileResponse(uprofile)
     }
 
+    override fun getnamalkp(namaLengkap: String): UprofileResponse {
+        println("Mencari uprofile dengan nama: $namaLengkap") // Debugging
+        val uprofile = findUprofileNameByOrThrowNotFound(namaLengkap)
+        println("Kategori ditemukan: ${uprofile.namalengkap}") // Debugging
+        return convertUprofileToUprofileResponse(uprofile)
+    }
+
+    // Metode baru untuk mendapatkan produk berdasarkan kategori
+    override fun getUprofilesByUser(userId: Long): List<UprofileResponse> {
+        // Ambil semua produk berdasarkan categoryId
+        val uprofile = uprofileRepository.findByUsers_Iduser(userId)
+
+        // Mengonversi daftar produk ke daftar response untuk API
+        return uprofile.map { convertUprofileToUprofileResponse(it) }
+    }
+
     override fun list(listUprofileRequest: ListUprofileRequest): List<UprofileResponse> {
         val page = uprofileRepository.findAll(PageRequest.of(listUprofileRequest.page, listUprofileRequest.size))
         return page.get().map { convertUprofileToUprofileResponse(it) }.toList()
     }
 
     private fun findUprofileByOrThrowNotFound(id: Long): Uprofile {
-        return uprofileRepository.findByIdOrNull(id) ?: throw NotFoundExpection()
+        val uprofile = uprofileRepository.findByIdOrNull(id)
+        if (uprofile == null){
+            throw NotFoundExpection()
+        }else {
+            return uprofile;
+        }
+    }
+
+    private fun findUprofileNameByOrThrowNotFound(namaLengkap: String): Uprofile {
+        return uprofileRepository.findByNamalengkap(namaLengkap)
+            ?: throw NotFoundExpection()
     }
 
     private fun convertUprofileToUprofileResponse(uprofile: Uprofile): UprofileResponse {
