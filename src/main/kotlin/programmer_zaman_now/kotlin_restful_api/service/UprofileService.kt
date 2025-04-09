@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.Group
 import programmer_zaman_now.kotlin_restful_api.entity.kendaraan.VehicleType
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.CreateUprofileRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.ListUprofileRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.UpdateUprofileRequest
@@ -17,6 +18,10 @@ interface UprofileService {
     ): UprofileResponse
 
     fun get(id: Long): UprofileResponse
+
+    fun getnamalkp(namaLengkap: String): UprofileResponse
+
+    fun getUprofilesByUser(userId: Long): List<UprofileResponse>
 
     fun update(id: Long, updateUprofileRequest: UpdateUprofileRequest, fotoProfil: MultipartFile?, fotoKendaraan: MultipartFile?): UprofileResponse
 
