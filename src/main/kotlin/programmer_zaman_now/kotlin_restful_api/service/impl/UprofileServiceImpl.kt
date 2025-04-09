@@ -122,7 +122,7 @@ class UprofileServiceImpl(
     // Metode baru untuk mendapatkan produk berdasarkan kategori
     override fun getUprofilesByUser(userId: Long): List<UprofileResponse> {
         // Ambil semua produk berdasarkan categoryId
-        val uprofile = uprofileRepository.findByUsers_Iduser(userId)
+        val uprofile = uprofileRepository.findByUser_Iduser(userId)
 
         // Mengonversi daftar produk ke daftar response untuk API
         return uprofile.map { convertUprofileToUprofileResponse(it) }
