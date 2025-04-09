@@ -12,7 +12,7 @@ import programmer_zaman_now.kotlin_restful_api.entity.orders.Packet
 interface OrderRepository : JpaRepository<Orders, Long>{
     fun findByUprofiles_Iduprofile(iduprofile: Long): List<Orders>
 
-    @Query("SELECT o FROM Orders o WHERE LOWER(o.iconorder) = LOWER(:iconorder) AND o.uprofile.id = :uprofileId")
+    @Query("SELECT o FROM Orders o WHERE LOWER(o.iconorder) = LOWER(:iconorder) AND o.uprofiles = :uprofiles")
     fun findByIconorderAndUserIdWithPagination(
         @Param("iconorder") iconorder: String,
         @Param("uprofileId") uprofileId: Long,
@@ -25,9 +25,9 @@ interface OrderRepository : JpaRepository<Orders, Long>{
         pageable: Pageable
     ): Page<Orders>
 
-    @Query("SELECT o FROM Orders o WHERE o.uprofile.id = :uprofileId")
+    @Query("SELECT o FROM Orders o WHERE o.uprofiles = :uprofiles")
     fun findByUserIdWithPagination(
-        @Param("uprofileId") uprofileId: Long,
+        @Param("uprofiles") uprofileId: Long,
         pageable: Pageable
     ): Page<Orders>
 
