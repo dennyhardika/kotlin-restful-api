@@ -12,6 +12,6 @@ interface UprofileRepository: JpaRepository<Uprofile, Long> {
     fun findByNamalengkap(@Param("namalengkap") namalengkap: String): Uprofile?
 
     // Query untuk mencari produk berdasarkan ID kategori
-    fun findByUsers_Iduser(userId: Long): List<Uprofile>
+    fun findByUser_Iduser(userId: Long): List<Uprofile>
 
 }
