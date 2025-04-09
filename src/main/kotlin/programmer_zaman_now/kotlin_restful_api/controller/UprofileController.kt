@@ -1,6 +1,7 @@
 package programmer_zaman_now.kotlin_restful_api.controller
 
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.CreateUprofileRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.ListUprofileRequest
 import programmer_zaman_now.kotlin_restful_api.model.uprofile.UpdateUprofileRequest
@@ -78,16 +80,39 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
     }
 
     @GetMapping(
-        value = ["/api/uprofiles/{idUprofile}"],
+        value = ["/api/uprofiles/id/{idUprofile}"],
         produces = ["application/json"]
     )
-    fun getUprofile(@PathVariable("idUprofile") id: Long): WebResponse<UprofileResponse> {
+    fun getUprofileId(@PathVariable("idUprofile") id: Long): WebResponse<UprofileResponse> {
         val uprofileResponse = uprofileService.get(id)
         return WebResponse(
             code = 200,
             status = "OK",
             data = uprofileResponse
         )
+    }
+
+    @GetMapping(
+        value = ["/api/uprofiles/name/{UprofileName}"],
+        produces = ["application/json"]
+    )
+    fun getUprofileName(@PathVariable("UprofileName") namalkp: String): WebResponse<UprofileResponse> {
+        val uprofileResponse = uprofileService.getnamalkp(namalkp)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = uprofileResponse
+        )
+    }
+
+    // Endpoint baru untuk mendapatkan produk berdasarkan kategori
+    @GetMapping(
+        value = ["/api/uprofiles/users/{idUser}"],
+        produces = ["application/json"]
+    )
+    fun getUprofilesByUser(@PathVariable ("idUser") id: Long): ResponseEntity<List<UprofileResponse>> {
+        val uprofileResponse = uprofileService.getUprofilesByUser(id)
+        return ResponseEntity.ok(uprofileResponse)
     }
 
 @PutMapping(
