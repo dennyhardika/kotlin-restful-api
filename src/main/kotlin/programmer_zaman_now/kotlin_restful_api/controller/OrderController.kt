@@ -210,7 +210,7 @@ class OrderController(val orderService: OrderService, val productRepository: Pro
     }
 
     @GetMapping(
-        value = ["/api/orders"],
+        value = ["/api/orders/filter"],
         produces = ["application/json"]
     )
     fun listOrders(
