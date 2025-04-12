@@ -3,8 +3,10 @@ package programmer_zaman_now.kotlin_restful_api.service.impl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import programmer_zaman_now.kotlin_restful_api.entity.Uprofile
 import programmer_zaman_now.kotlin_restful_api.entity.User
 import programmer_zaman_now.kotlin_restful_api.error.NotFoundExpection
+import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.model.user.CreateUserRequest
 import programmer_zaman_now.kotlin_restful_api.model.user.ListUserRequest
 import programmer_zaman_now.kotlin_restful_api.model.user.UpdateUserRequest
@@ -31,6 +33,13 @@ class UserServiceImpl(val userRepository: UserRepository): UserService {
 
     override fun get(id: Long): UserResponse {
         val user = findUserByOrThrowNotFound(id)
+        return convertUserToUserResponse(user)
+    }
+
+    override fun getusername(userName: String): UserResponse {
+        println("Mencari username : $userName") // Debugging
+        val user = findUsernameByOrThrowNotFound(userName)
+        println("Kategori ditemukan: ${user.username}") // Debugging
         return convertUserToUserResponse(user)
     }
 
@@ -67,6 +76,11 @@ class UserServiceImpl(val userRepository: UserRepository): UserService {
         }else {
             return user;
         }
+    }
+
+    private fun findUsernameByOrThrowNotFound(userName: String): User {
+        return userRepository.findByUsername(userName)
+            ?: throw NotFoundExpection()
     }
     private fun convertUserToUserResponse(user: User): UserResponse {
         return UserResponse(
