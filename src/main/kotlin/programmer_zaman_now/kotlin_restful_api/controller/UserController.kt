@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import programmer_zaman_now.kotlin_restful_api.model.WebResponse
+import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.model.user.CreateUserRequest
 import programmer_zaman_now.kotlin_restful_api.model.user.ListUserRequest
 import programmer_zaman_now.kotlin_restful_api.model.user.UpdateUserRequest
@@ -33,11 +34,24 @@ class UserController(val userService: UserService) {
     }
 
     @GetMapping(
-        value = ["/api/users/{idUser}"],
+        value = ["/api/users/id/{idUser}"],
         produces = ["application/json"]
     )
-    fun getUser(@PathVariable("idUser") id: Long): WebResponse<UserResponse> {
+    fun getIdUser(@PathVariable("idUser") id: Long): WebResponse<UserResponse> {
         val userResponse = userService.get(id)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = userResponse
+        )
+    }
+
+    @GetMapping(
+        value = ["/api/users/name/{username}"],
+        produces = ["application/json"]
+    )
+    fun getUsernameUser(@PathVariable("username") userName: String): WebResponse<UserResponse> {
+        val userResponse = userService.getusername(userName)
         return WebResponse(
             code = 200,
             status = "OK",
