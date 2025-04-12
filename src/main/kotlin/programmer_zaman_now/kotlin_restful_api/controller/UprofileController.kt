@@ -110,9 +110,13 @@ class UprofileController(val uprofileService: UprofileService, val userRepositor
         value = ["/api/uprofiles/users/{idUser}"],
         produces = ["application/json"]
     )
-    fun getUprofilesByUser(@PathVariable ("idUser") id: Long): ResponseEntity<List<UprofileResponse>> {
+    fun getUprofilesByUser(@PathVariable ("idUser") id: Long): WebResponse<List<UprofileResponse>> {
         val uprofileResponse = uprofileService.getUprofilesByUser(id)
-        return ResponseEntity.ok(uprofileResponse)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = uprofileResponse
+        )
     }
 
 @PutMapping(
