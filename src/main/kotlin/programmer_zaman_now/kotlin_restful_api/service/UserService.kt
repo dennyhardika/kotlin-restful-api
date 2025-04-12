@@ -11,6 +11,8 @@ interface UserService {
 
     fun get(id: Long): UserResponse
 
+    fun getusername(userName: String): UserResponse
+
     fun update(id: Long, updateUserRequest: UpdateUserRequest): UserResponse
 
     fun delete(id: Long)
