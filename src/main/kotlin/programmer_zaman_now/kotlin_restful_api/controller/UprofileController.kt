@@ -137,10 +137,10 @@ fun updateUprofile(
     @RequestParam("group") groupStr: String
 ): WebResponse<UprofileResponse> {
     // Mengonversi uprofileStr (String) menjadi Long
-    val id = groupStr.toLongOrNull()
+    val groupId  = groupStr.toLongOrNull()
         ?: throw IllegalArgumentException("User profile ID tidak valid: $groupStr")
 
-    val tipe = groupRepository.findByIdOrNull(id)
+    val tipe = groupRepository.findByIdOrNull(groupId )
         ?: throw IllegalArgumentException("Type dengan ID $id tidak ditemukan")
 
     val request = UpdateUprofileRequest(
