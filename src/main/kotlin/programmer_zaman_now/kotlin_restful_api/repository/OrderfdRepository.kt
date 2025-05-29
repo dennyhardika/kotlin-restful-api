@@ -11,6 +11,6 @@ interface OrderfdRepository : JpaRepository<Ordersfd, Long> {
 //    fun findByOrders_IdOrder(idOrder: Long): List<Ordersfd>
 
     // Query untuk mencari Orderfd berdasarkan ID Order
-    fun findByOrders_IdOrder(id_order: Long): List<Ordersfd>
+    fun findByOrders_Id_order(id_order: Long): List<Ordersfd>
 
 }
