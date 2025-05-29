@@ -20,7 +20,7 @@ interface OrderfdService {
 
     fun get(id: Long): OrderfdResponse
 
-    fun getOrderfdByOrder(orderfdId: Long): List<OrderfdResponse>
+    fun getOrderfdByOrder(id_orderfd: Long): List<OrderfdResponse>
 
     fun update(id: Long, updateOrderfdRequest: UpdateOrderfdRequest, fotoOnefd: MultipartFile?, fotoTwofd: MultipartFile?, fotoThreefd: MultipartFile?, fotoFourfd: MultipartFile?): OrderfdResponse
 
