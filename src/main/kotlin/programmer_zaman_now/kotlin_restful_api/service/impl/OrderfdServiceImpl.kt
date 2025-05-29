@@ -65,7 +65,7 @@ class OrderfdServiceImpl(val orderfdRepository: OrderfdRepository, val orderRepo
     // Metode baru untuk mendapatkan produk berdasarkan kategori
     override fun getOrderfdByOrder(id_order: Long): List<OrderfdResponse> {
         // Ambil semua produk berdasarkan categoryId
-        val orderfd = orderfdRepository.findByOrders_IdOrder(id_order)
+        val orderfd = orderfdRepository.findByOrders_Id_order(id_order)
 
         // Mengonversi daftar produk ke daftar response untuk API
         return orderfd.map { convertOrderfdToOrderfdResponse(it) }
