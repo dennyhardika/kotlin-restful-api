@@ -12,7 +12,9 @@ import jakarta.persistence.JoinTable
 import jakarta.persistence.ManyToMany
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
+import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import programmer_zaman_now.kotlin_restful_api.entity.orders.Ordersfd
 import programmer_zaman_now.kotlin_restful_api.entity.orders.Packet
 import programmer_zaman_now.kotlin_restful_api.entity.orders.Promo
 import java.util.Date
@@ -88,7 +90,10 @@ class Orders(
     var createdAt: Date,
 
     @Column(name = "updated_at")
-    var updatedAt: Date?
+    var updatedAt: Date?,
+
+    @OneToOne(mappedBy = "orders", orphanRemoval = true, cascade = [CascadeType.ALL])
+    var ordersfd: Ordersfd? = null
 
 
     //    @OneToMany(mappedBy = "order", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
