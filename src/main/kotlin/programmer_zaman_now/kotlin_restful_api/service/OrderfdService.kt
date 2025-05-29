@@ -12,12 +12,15 @@ import programmer_zaman_now.kotlin_restful_api.model.orderfd.CreateOrderfdReques
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.ListOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.OrderfdResponse
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.UpdateOrderfdRequest
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 
 interface OrderfdService {
 
     fun create(createOrderfdRequest: CreateOrderfdRequest, fotoOnefd: MultipartFile?, fotoTwofd: MultipartFile?, fotoThreefd: MultipartFile?, fotoFourfd: MultipartFile?, orders: Orders): OrderfdResponse
 
     fun get(id: Long): OrderfdResponse
+
+    fun getOrderfdByOrder(orderfdId: Long): List<OrderfdResponse>
 
     fun update(id: Long, updateOrderfdRequest: UpdateOrderfdRequest, fotoOnefd: MultipartFile?, fotoTwofd: MultipartFile?, fotoThreefd: MultipartFile?, fotoFourfd: MultipartFile?): OrderfdResponse
 
