@@ -6,6 +6,6 @@ import programmer_zaman_now.kotlin_restful_api.entity.orders.Ordersfd
 
 interface OrderfdRepository : JpaRepository<Ordersfd, Long> {
 
-    fun findByOrdersfd_Idorderfd(idorderfd: Long): List<Ordersfd>
+    fun findByOrders_IdOrder(idOrder: Long): List<Ordersfd>
 
 }
