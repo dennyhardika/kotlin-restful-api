@@ -20,8 +20,6 @@ interface OrderfdService {
 
     fun get(id: Long): OrderfdResponse
 
-    fun getOrderfdByOrder(id_order: Long): List<OrderfdResponse>
-
     fun update(id: Long, updateOrderfdRequest: UpdateOrderfdRequest, fotoOnefd: MultipartFile?, fotoTwofd: MultipartFile?, fotoThreefd: MultipartFile?, fotoFourfd: MultipartFile?): OrderfdResponse
 
     fun delete(id: Long)
