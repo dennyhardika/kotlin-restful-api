@@ -1,6 +1,7 @@
 package programmer_zaman_now.kotlin_restful_api.controller
 
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -16,6 +17,7 @@ import programmer_zaman_now.kotlin_restful_api.model.orderfd.CreateOrderfdReques
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.ListOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.OrderfdResponse
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.UpdateOrderfdRequest
+import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
 import programmer_zaman_now.kotlin_restful_api.repository.OrderRepository
 import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 import programmer_zaman_now.kotlin_restful_api.service.OrderfdService
@@ -75,6 +77,16 @@ class OrderfdController(val orderfdService: OrderfdService, val orderRepository:
             status = "OK",
             data = orderdfdResponse
         )
+    }
+
+    // Endpoint baru untuk mendapatkan produk berdasarkan kategori
+    @GetMapping(
+        value = ["/api/ordersfd/ord/{idOrderfd}"],
+        produces = ["application/json"]
+    )
+    fun getOrderfdByOrder(@PathVariable ("idOrderfd") id: Long): ResponseEntity<List<OrderfdResponse>> {
+        val orderdfdResponse = orderfdService.getOrderfdByOrder(id)
+        return ResponseEntity.ok(orderdfdResponse)
     }
 
     @PutMapping(
