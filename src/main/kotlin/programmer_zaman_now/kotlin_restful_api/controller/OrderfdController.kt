@@ -79,16 +79,6 @@ class OrderfdController(val orderfdService: OrderfdService, val orderRepository:
         )
     }
 
-    // Endpoint baru untuk mendapatkan produk berdasarkan kategori
-    @GetMapping(
-        value = ["/api/ordersfd/ord/{idOrderfd}"],
-        produces = ["application/json"]
-    )
-    fun getOrderfdByOrder(@PathVariable ("idOrderfd") id: Long): ResponseEntity<List<OrderfdResponse>> {
-        val orderdfdResponse = orderfdService.getOrderfdByOrder(id)
-        return ResponseEntity.ok(orderdfdResponse)
-    }
-
     @PutMapping(
         value = ["/api/ordersfd/{idOrderfd}"],
         produces = ["application/json"],
