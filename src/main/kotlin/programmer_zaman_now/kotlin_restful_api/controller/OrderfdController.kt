@@ -36,7 +36,7 @@ class OrderfdController(val orderfdService: OrderfdService, val orderRepository:
         @RequestParam("foto_twofd", required = false) foto_twofd: MultipartFile?, // Ubah ke opsional
         @RequestParam("foto_threefd", required = false) foto_threefd: MultipartFile?, // Ubah ke opsional
         @RequestParam("foto_fourfd", required = false) foto_fourfd: MultipartFile?, // Ubah ke opsional
-        @RequestParam("orderfd") orderfdStr: String
+        @RequestParam("order") orderfdStr: String
     ): WebResponse<OrderfdResponse> {
         // Mengonversi uprofileStr (String) menjadi Long
         val orderfdId = orderfdStr.toLongOrNull()
