@@ -5,7 +5,7 @@ import java.util.Date
 
 data class OrderResponse(
 
-    val id_order: Long,
+    val idorder: Long,
 
     val iconorder: String? = null,
 
