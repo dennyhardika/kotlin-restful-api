@@ -19,7 +19,7 @@ class Ordersfd (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_orderfd")
-    val id_orderfd: Long? = null,
+    val idorderfd: Long? = null,
 
     @Column(name = "waktu_mulai")
     var waktumulai: String,
@@ -50,6 +50,6 @@ class Ordersfd (
 
     @OneToOne
     @JoinColumn(name = "id_order", unique = true)
-    val orders: Orders
+    val orders: Orders,
 
     )
