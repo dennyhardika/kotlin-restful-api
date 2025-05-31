@@ -13,6 +13,7 @@ import programmer_zaman_now.kotlin_restful_api.model.orderfd.ListOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.OrderfdResponse
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.UpdateOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
+import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.repository.OrderRepository
 import programmer_zaman_now.kotlin_restful_api.repository.OrderfdRepository
 import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
@@ -60,6 +61,15 @@ class OrderfdServiceImpl(val orderfdRepository: OrderfdRepository, val orderRepo
     override fun get(id: Long): OrderfdResponse {
         val orderfd = findOrderfdByOrThrowNotFound(id)
         return convertOrderfdToOrderfdResponse(orderfd)
+    }
+
+    // Metode baru untuk mendapatkan produk berdasarkan kategori
+    override fun getOrdersfdByOrder(orderId: Long): List<OrderfdResponse> {
+        // Ambil semua produk berdasarkan categoryId
+        val orderfd = orderfdRepository.findByOrders_Idorder(orderId)
+
+        // Mengonversi daftar produk ke daftar response untuk API
+        return orderfd.map { convertOrderfdToOrderfdResponse(it) }
     }
 
     override fun update(
