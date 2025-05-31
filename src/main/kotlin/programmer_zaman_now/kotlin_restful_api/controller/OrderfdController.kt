@@ -18,6 +18,7 @@ import programmer_zaman_now.kotlin_restful_api.model.orderfd.ListOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.OrderfdResponse
 import programmer_zaman_now.kotlin_restful_api.model.orderfd.UpdateOrderfdRequest
 import programmer_zaman_now.kotlin_restful_api.model.product.ProductResponse
+import programmer_zaman_now.kotlin_restful_api.model.uprofile.UprofileResponse
 import programmer_zaman_now.kotlin_restful_api.repository.OrderRepository
 import programmer_zaman_now.kotlin_restful_api.service.FileStorageService
 import programmer_zaman_now.kotlin_restful_api.service.OrderfdService
@@ -72,6 +73,20 @@ class OrderfdController(val orderfdService: OrderfdService, val orderRepository:
     )
     fun getOrderfd(@PathVariable("idOrderfd") id: Long): WebResponse<OrderfdResponse> {
         val orderdfdResponse = orderfdService.get(id)
+        return WebResponse(
+            code = 200,
+            status = "OK",
+            data = orderdfdResponse
+        )
+    }
+
+    // Endpoint baru untuk mendapatkan produk berdasarkan kategori
+    @GetMapping(
+        value = ["/api/ordersfd/orders/{idOrder}"],
+        produces = ["application/json"]
+    )
+    fun getOrderfdByOrder(@PathVariable ("idOrder") id: Long): WebResponse<List<OrderfdResponse>> {
+        val orderdfdResponse = orderfdService.getOrdersfdByOrder(id)
         return WebResponse(
             code = 200,
             status = "OK",
