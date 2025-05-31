@@ -56,7 +56,7 @@ class OrderfdController(val orderfdService: OrderfdService, val orderRepository:
             foto_threefd = "",
             foto_fourfd = "",
             keterangan = keteranganfd ?: "",
-            order = orderT.id_order!!
+            order = orderT.idorder!!
         )
 
         val orderdfdResponse = orderfdService.create(request, foto_onefd, foto_twofd, foto_threefd, foto_fourfd, orderT) // , products, uprofile
