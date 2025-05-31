@@ -66,7 +66,7 @@ class OrderfdServiceImpl(val orderfdRepository: OrderfdRepository, val orderRepo
     // Metode baru untuk mendapatkan produk berdasarkan kategori
     override fun getOrdersfdByOrder(orderId: Long): List<OrderfdResponse> {
         // Ambil semua produk berdasarkan categoryId
-        val orderfd = orderfdRepository.findByOrders_Id_order(orderId)
+        val orderfd = orderfdRepository.findByOrders_Idorder(orderId)
 
         // Mengonversi daftar produk ke daftar response untuk API
         return orderfd.map { convertOrderfdToOrderfdResponse(it) }
@@ -134,7 +134,7 @@ class OrderfdServiceImpl(val orderfdRepository: OrderfdRepository, val orderRepo
 
     private fun convertOrderfdToOrderfdResponse(ordersfd: Ordersfd): OrderfdResponse {
         return OrderfdResponse(
-            id_orderfd = ordersfd.id_orderfd!!,
+            idorderfd = ordersfd.idorderfd!!,
             waktumulai = ordersfd.waktumulai!!,
             waktuselesai = ordersfd.waktuselesai!!,
             keterangan = ordersfd.keteranganfd ?: "",
@@ -142,7 +142,7 @@ class OrderfdServiceImpl(val orderfdRepository: OrderfdRepository, val orderRepo
             foto_twofd = ordersfd.foto_twofd ?: "",
             foto_threefd = ordersfd.foto_threefd ?: "",
             foto_fourfd = ordersfd.foto_fourfd ?: "",
-            order = ordersfd.orders?.id_order ?: throw IllegalStateException("Order is null in Orderfd"),
+            order = ordersfd.orders?.idorder ?: throw IllegalStateException("Order is null in Orderfd"),
             createdAt = ordersfd.createdAt,
             updatedAt = ordersfd.updatedAt,
         )
