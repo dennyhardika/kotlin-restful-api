@@ -26,7 +26,7 @@ class Orders(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order")
-    val id_order: Long? = null,
+    val idorder: Long? = null,
 
     @Column(name = "icon_order")
     var iconorder: String? = null,
