@@ -184,7 +184,7 @@ class OrderServiceImpl(val orderRepository: OrderRepository, val uprofileReposit
 
     private fun convertOrderToOrderResponse(orders: Orders): OrderResponse {
         return OrderResponse(
-            id_order = orders.id_order!!,
+            idorder = orders.idorder!!,
             iconorder = orders.iconorder ?: "",
 //            packetIds = orders.packets.map { it.idpaket!! }, // Jika kosong, akan jadi `emptyList()`
 //            promoIds = orders.promotions.map { it.idpromo!! }, // Jika kosong, akan jadi `emptyList()`
