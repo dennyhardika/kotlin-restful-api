@@ -4,7 +4,7 @@ import java.util.Date
 
 data class OrderfdResponse (
 
-    val id_orderfd: Long,
+    val idorderfd: Long,
 
     val waktumulai: String,
 
